@@ -1,0 +1,11 @@
+﻿  Window.cpp
+c:\users\israel\documents\github\proyecto2020\project1\project1\window.h(12): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
+c:\users\israel\documents\github\proyecto2020\project1\project1\window.h(13): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
+c:\users\israel\documents\github\proyecto2020\project1\project1\window.cpp(137): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+c:\users\israel\documents\github\proyecto2020\project1\project1\window.cpp(138): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+c:\users\israel\documents\github\proyecto2020\project1\project1\window.cpp(142): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+c:\users\israel\documents\github\proyecto2020\project1\project1\window.cpp(143): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+c:\users\israel\documents\github\proyecto2020\project1\project1\window.cpp(145): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+c:\users\israel\documents\github\proyecto2020\project1\project1\window.cpp(146): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+c:\users\israel\documents\github\proyecto2020\project1\project1\window.cpp(76): warning C4715: 'Window::Initialise': no todas las rutas de acceso de control devuelven un valor
+  Project1.vcxproj -> C:\Users\Israel\Documents\GitHub\Proyecto2020\Project1\Debug\Practica1.exe
