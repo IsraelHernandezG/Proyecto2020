@@ -43,11 +43,11 @@ std::vector<Shader> shaderList;
 Camera camera;
 
 Texture brickTexture;
-Texture dirtTexture;
 Texture plainTexture;
-Texture dadoTexture;
 Texture pisoTexture;
-Texture pistasTexture;
+Texture paredLadrilloTexture;
+Texture paredLadrillo2Texture;
+Texture terrainTexture;
 Texture carTexture;
 Texture Tagave;
 //materiales
@@ -59,11 +59,7 @@ DirectionalLight mainLight;
 PointLight pointLights[MAX_POINT_LIGHTS];
 SpotLight spotLights[MAX_SPOT_LIGHTS];
 
-Model Kitt_M;
-Model Llanta_M;
-Model Camino_M;
 Model Blackhawk_M;
-Model Rampa_M;
 
 Skybox skybox;
 
@@ -130,75 +126,56 @@ void CreateObjects()
 		0.0f, 1.0f, 0.0f,		0.5f, 1.0f,		0.0f, 0.0f, 0.0f
 	};
 
-	unsigned int floorIndices[] = {
+	unsigned int terrainIndices[] = {
 		0, 2, 1,
 		1, 2, 3
 	};
 
-	GLfloat floorVertices[] = {
+	GLfloat terrainVertices[] = {
 		-10.0f, 0.0f, -10.0f,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f,
 		10.0f, 0.0f, -10.0f,	10.0f, 0.0f,	0.0f, -1.0f, 0.0f,
 		-10.0f, 0.0f, 10.0f,	0.0f, 10.0f,	0.0f, -1.0f, 0.0f,
 		10.0f, 0.0f, 10.0f,		10.0f, 10.0f,	0.0f, -1.0f, 0.0f
 	};
 
-	unsigned int pistaIndices[] = {
+	unsigned int floorIndices[] = {
 		0, 2, 1,
 		1, 2, 3
 	};
 
-	GLfloat pistaVertices[] = {
-		-1.0f, 0.0f, -1.0f,	0.0f, 0.0f,	0.0f, -1.0f, 0.0f,
-		1.0f, 0.0f, -1.0f,	1.0f, 0.0f,	0.0f, -1.0f, 0.0f,
-		-1.0f, 0.0f, 1.0f,	0.0f, 1.0f,	0.0f, -1.0f, 0.0f,
-		1.0f, 0.0f, 1.0f,	1.0f, 1.0f,	0.0f, -1.0f, 0.0f
+	GLfloat floorVertices[] = {
+		-10.0f, 0.0f, -10.0f,	0.0f, 0.0f,	0.0f, -1.0f, 0.0f,
+		10.0f, 0.0f, -10.0f,	5.0f, 0.0f,	0.0f, -1.0f, 0.0f,
+		-10.0f, 0.0f, 10.0f,	0.0f, 5.0f,	0.0f, -1.0f, 0.0f,
+		10.0f, 0.0f, 10.0f,		5.0f, 5.0f,	0.0f, -1.0f, 0.0f
 	};
 
-	unsigned int vegetacionIndices[] = {
-		0, 1, 2,
-		0, 2, 3,
-		4,5,6,
-		4,6,7
+	unsigned int wallIndices[] = {
+		0, 2, 1,
+		1, 2, 3
 	};
 
-	GLfloat vegetacionVertices[] = {
-		-0.5f, -0.5f, 0.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f,
-		0.5f, -0.5f, 0.0f,		1.0f, 0.0f,		0.0f, 0.0f, 0.0f,
-		0.5f, 0.5f, 0.0f,		1.0f, 1.0f,		0.0f, 0.0f, 0.0f,
-		-0.5f, 0.5f, 0.0f,		0.0f, 1.0f,		0.0f, 0.0f, 0.0f,
-
-		0.0f, -0.5f, -0.5f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f,
-		0.0f, -0.5f, 0.5f,		1.0f, 0.0f,		0.0f, 0.0f, 0.0f,
-		0.0f, 0.5f, 0.5f,		1.0f, 1.0f,		0.0f, 0.0f, 0.0f,
-		0.0f, 0.5f, -0.5f,		0.0f, 1.0f,		0.0f, 0.0f, 0.0f,
-
-
+	GLfloat wallVertices[] = {
+		-10.0f, -10.0f, 0.0f,	0.0f, 0.0f,	0.0f, 0.0f, -1.0f,
+		10.0f, -10.0f, 0.0f,	5.0f, 0.0f,	0.0f, 0.0f, -1.0f,
+		-10.0f, 10.0f, 0.0f,	0.0f, 2.0f,	0.0f, 0.0f, -1.0f,
+		10.0f, 10.0f, 0.0f,		5.0f, 2.0f,	0.0f, 0.0f, -1.0f,
 	};
-
-
+	
 	calcAverageNormals(indices, 12, vertices, 32, 8, 5);
 	//0
-	Mesh *obj1 = new Mesh();
-	obj1->CreateMesh(vertices, indices, 32, 12);
-	meshList.push_back(obj1);
+	Mesh *obj0 = new Mesh();
+	obj0->CreateMesh(terrainVertices, terrainIndices, 32, 6);
+	meshList.push_back(obj0);
 	//1
-	Mesh *obj2 = new Mesh();
-	obj2->CreateMesh(vertices, indices, 32, 12);
-	meshList.push_back(obj2);
-	//2
-	Mesh *obj3 = new Mesh();
-	obj3->CreateMesh(floorVertices, floorIndices, 32, 6);
-	meshList.push_back(obj3);
-	//3
-	Mesh *objE = new Mesh();
-	objE->CreateMesh(pistaVertices, pistaIndices, 32, 6);
-	meshList.push_back(objE);
+	Mesh *obj1 = new Mesh();
+	obj1->CreateMesh(floorVertices, floorIndices, 32, 6);
+	meshList.push_back(obj1);
 
-	calcAverageNormals(vegetacionIndices, 12, vegetacionVertices, 64, 8, 5);
-	//4
-	Mesh *obj4 = new Mesh();
-	obj4->CreateMesh(vegetacionVertices, vegetacionIndices, 64, 12);
-	meshList.push_back(obj4);
+	//2
+	Mesh *obj2 = new Mesh();
+	obj2->CreateMesh(wallVertices, wallIndices, 32, 6);
+	meshList.push_back(obj2);
 
 }
 
@@ -282,6 +259,85 @@ void CreateShaders()
 	shaderList.push_back(*shader1);
 }
 
+void DisplayHouse(glm::mat4 model, GLuint uniformModel, GLuint uniformSpecularIntensity, GLuint uniformShininess) {
+	//plano piso
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(0.0f, -1.95f, 0.0f));
+	model = glm::scale(model, glm::vec3(5.0f, 1.0f, 5.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	pisoTexture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[1]->RenderMesh();
+	
+	//pared 1
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(0.0f, 5.0f, 50.0f));
+	model = glm::scale(model, glm::vec3(5.0f, 0.8f, 1.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	paredLadrilloTexture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[2]->RenderMesh();
+
+	model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.0f));
+	model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	paredLadrillo2Texture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[2]->RenderMesh();
+
+	//pared 2
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(0.0f, 5.0f, -50.0f));
+	model = glm::scale(model, glm::vec3(5.0f, 0.8f, 1.0f));
+	model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	paredLadrilloTexture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[2]->RenderMesh();
+
+	model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.0f));
+	model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	paredLadrillo2Texture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[2]->RenderMesh();
+
+	//pared 3
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(50.0f, 5.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(1.0f, 0.8f, 5.0f));
+	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	paredLadrilloTexture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[2]->RenderMesh();
+
+	model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.0f));
+	model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	paredLadrillo2Texture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[2]->RenderMesh();
+
+	//pared 4
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-50.0f, 5.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(1.0f, 0.8f, 5.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	paredLadrilloTexture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[2]->RenderMesh();
+
+	model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.0f));
+	model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	paredLadrillo2Texture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[2]->RenderMesh();
+
+}
+
 int main() 
 {
 	mainWindow = Window(1366, 768); // 1280, 1024 or 1024, 768
@@ -296,14 +352,16 @@ int main()
 	//Textures
 	brickTexture = Texture("Textures/brick.png");
 	brickTexture.LoadTextureA();
-	dirtTexture = Texture("Textures/dirt.png");
-	dirtTexture.LoadTextureA();
 	plainTexture = Texture("Textures/plain.png");
 	plainTexture.LoadTextureA();
-	dadoTexture = Texture("Textures/dado.tga");
-	dadoTexture.LoadTextureA();
-	pisoTexture= Texture("Textures/pasto.tga");
+	pisoTexture = Texture("Textures/madera2.tga");
 	pisoTexture.LoadTextureA();
+	paredLadrilloTexture = Texture("Textures/ladrillos1.tga");
+	paredLadrilloTexture.LoadTextureA();
+	paredLadrillo2Texture = Texture("Textures/pared2.tga");
+	paredLadrillo2Texture.LoadTextureA();
+	terrainTexture = Texture("Textures/pasto.tga");
+	terrainTexture.LoadTextureA();
 	Tagave = Texture("Textures/Agave.tga");
 	Tagave.LoadTextureA();
 	Material_brillante = Material(4.0f, 256);
@@ -407,18 +465,19 @@ int main()
 		glUniform3f(uniformEyePosition, camera.getCameraPosition().x, camera.getCameraPosition().y, camera.getCameraPosition().z);
 
 		glm::mat4 model(1.0);
-		glm::mat4 modelAuto(1.0);
-		glm::mat4 modelAux(1.0);
 
-
+		//plano terreno
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.0f, -2.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(30.0f, 1.0f,30.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		pisoTexture.UseTexture();
+		terrainTexture.UseTexture();
 		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		meshList[2]->RenderMesh();
+		meshList[0]->RenderMesh();
 
+		DisplayHouse(model, uniformModel, uniformSpecularIntensity, uniformShininess);
+
+		//modelo
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(3.0f, 6.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
@@ -428,19 +487,10 @@ int main()
 		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		Blackhawk_M.RenderModel();
 
-
-		//Agave
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, -1.7f, -2.0f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		//blending: transparencia o traslucidez
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		Tagave.UseTexture();
-		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		meshList[4]->RenderMesh();
-		glDisable(GL_BLEND);
+		//glEnable(GL_BLEND);
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//glDisable(GL_BLEND);
 			glUseProgram(0);
 
 		mainWindow.swapBuffers();
