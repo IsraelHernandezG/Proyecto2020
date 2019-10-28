@@ -60,7 +60,7 @@ PointLight pointLights[MAX_POINT_LIGHTS];
 SpotLight spotLights[MAX_SPOT_LIGHTS];
 
 Model Blackhawk_M;
-
+Model Windo;
 Skybox skybox;
 
 GLfloat deltaTime = 0.0f;
@@ -320,7 +320,7 @@ void DisplayHouse(glm::mat4 model, GLuint uniformModel, GLuint uniformSpecularIn
 	meshList[2]->RenderMesh();
 
 	//pared 4
-	model = glm::mat4(1.0);
+	/*model = glm::mat4(1.0);
 	model = glm::translate(model, glm::vec3(-50.0f, 5.0f, 0.0f));
 	model = glm::scale(model, glm::vec3(1.0f, 0.8f, 5.0f));
 	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
@@ -334,7 +334,126 @@ void DisplayHouse(glm::mat4 model, GLuint uniformModel, GLuint uniformSpecularIn
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	paredLadrillo2Texture.UseTexture();
 	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[2]->RenderMesh();*/
+	//pared 5
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-50.0f, 5.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(1.0f, 0.8f, 2.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	paredLadrillo2Texture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 	meshList[2]->RenderMesh();
+
+	model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.0f));
+	model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	paredLadrillo2Texture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[2]->RenderMesh();
+
+	//pared 6
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-50.0f, 5.0f, 40.0f));
+	model = glm::scale(model, glm::vec3(1.0f, 0.8f, 1.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	paredLadrillo2Texture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[2]->RenderMesh();
+
+	model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.0f));
+	model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	paredLadrillo2Texture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[2]->RenderMesh();
+
+	//pared 7
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-50.0f, 5.0f, -40.0f));
+	model = glm::scale(model, glm::vec3(1.0f, 0.8f, 1.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	paredLadrillo2Texture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[2]->RenderMesh();
+
+	model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.0f));
+	model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	paredLadrillo2Texture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[2]->RenderMesh();
+
+	//pared 8 1/2
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-50.0f, 12.0f, -25.0f));
+	model = glm::scale(model, glm::vec3(1.0f, 0.1f, 0.5f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	paredLadrillo2Texture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[2]->RenderMesh();
+
+	model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.0f));
+	model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	paredLadrillo2Texture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[2]->RenderMesh();
+	//pared 8 2/2
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-50.0f, 12.0f, 25.0f));
+	model = glm::scale(model, glm::vec3(1.0f, 0.1f, 0.5f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	paredLadrillo2Texture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[2]->RenderMesh();
+
+	model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.0f));
+	model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	paredLadrillo2Texture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[2]->RenderMesh();
+
+	//pared 8 1/2
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-50.0f, 0.8f, -25.0f));
+	model = glm::scale(model, glm::vec3(1.0f, 0.28f, 0.5f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	paredLadrillo2Texture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[2]->RenderMesh();
+
+	model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.0f));
+	model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	paredLadrillo2Texture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[2]->RenderMesh();
+	//pared 8 2/2
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-50.0f, 0.8f, 25.0f));
+	model = glm::scale(model, glm::vec3(1.0f, 0.28f, 0.5f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	paredLadrillo2Texture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[2]->RenderMesh();
+
+	model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.0f));
+	model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	paredLadrillo2Texture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[2]->RenderMesh();
+
+
+
 
 	//pared 5
 	model = glm::mat4(1.0);
@@ -438,7 +557,7 @@ void DisplayHouse(glm::mat4 model, GLuint uniformModel, GLuint uniformSpecularIn
 	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 	meshList[2]->RenderMesh();
 
-
+	
 
 
 }
@@ -475,7 +594,10 @@ int main()
 	//Models
 	Blackhawk_M = Model();
 	Blackhawk_M.LoadModel("Models/uh60.obj");
-	
+
+	Windo = Model();
+	Windo.LoadModel("Models/window.obj");
+
 	//luz direccional, sólo 1 y siempre debe de existir
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f, 
 								0.3f, 0.3f,
@@ -581,7 +703,22 @@ int main()
 		meshList[0]->RenderMesh();
 
 		DisplayHouse(model, uniformModel, uniformSpecularIntensity, uniformShininess);
-
+		//Ventana modelo
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-49.5f, 7.5f, 25.0f));
+		model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.15f, 0.1f, 0.25f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Windo.RenderModel();
+		//Ventana modelo
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-49.5f, 7.5f, -25.0f));
+		model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.15f, 0.1f, 0.25f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Windo.RenderModel();
 		//modelo
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(3.0f, 6.0f, 0.0f));
