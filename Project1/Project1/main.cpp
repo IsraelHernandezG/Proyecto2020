@@ -48,6 +48,7 @@ Texture pisoTexture;
 Texture paredLadrilloTexture;
 Texture paredLadrillo2Texture;
 Texture terrainTexture;
+Texture TexTree;
 Texture carTexture;
 Texture Tagave;
 //materiales
@@ -61,6 +62,7 @@ SpotLight spotLights[MAX_SPOT_LIGHTS];
 
 Model Blackhawk_M;
 Model Windo;
+Model Tree;
 Skybox skybox;
 
 GLfloat deltaTime = 0.0f;
@@ -584,10 +586,13 @@ int main()
 	paredLadrilloTexture.LoadTextureA();
 	paredLadrillo2Texture = Texture("Textures/pared2.tga");
 	paredLadrillo2Texture.LoadTextureA();
-	terrainTexture = Texture("Textures/pasto.tga");
-	terrainTexture.LoadTextureA();
+	TexTree = Texture("Models/10447_Pine_Tree_v1_L3b.");
+	TexTree.LoadTextureA();
 	Tagave = Texture("Textures/Agave.tga");
 	Tagave.LoadTextureA();
+	terrainTexture = Texture("Textures/pasto.tga");
+	terrainTexture.LoadTextureA();
+
 	Material_brillante = Material(4.0f, 256);
 	Material_opaco = Material(0.3f, 4);
 
@@ -598,6 +603,9 @@ int main()
 	Windo = Model();
 	Windo.LoadModel("Models/window.obj");
 
+	Tree = Model();
+	Tree.LoadModel("Models/10447_Pine_Tree_v1_L3b.obj");
+	
 	//luz direccional, sólo 1 y siempre debe de existir
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f, 
 								0.3f, 0.3f,
@@ -703,6 +711,16 @@ int main()
 		meshList[0]->RenderMesh();
 
 		DisplayHouse(model, uniformModel, uniformSpecularIntensity, uniformShininess);
+		//Arbol
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(3.0f, 6.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		TexTree.UseTexture();
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Tree.RenderModel();
 		//Ventana modelo
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-49.5f, 7.5f, 25.0f));
