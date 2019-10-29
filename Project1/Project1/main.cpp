@@ -586,8 +586,8 @@ int main()
 	paredLadrilloTexture.LoadTextureA();
 	paredLadrillo2Texture = Texture("Textures/pared2.tga");
 	paredLadrillo2Texture.LoadTextureA();
-	TexTree = Texture("Models/10447_Pine_Tree_v1_L3b.");
-	TexTree.LoadTextureA();
+	//TexTree = Texture("Models/10447_Pine_Tree_v1_Diffuse.png");
+	//TexTree.LoadTextureA();
 	Tagave = Texture("Textures/Agave.tga");
 	Tagave.LoadTextureA();
 	terrainTexture = Texture("Textures/pasto.tga");
@@ -711,22 +711,14 @@ int main()
 		meshList[0]->RenderMesh();
 
 		DisplayHouse(model, uniformModel, uniformSpecularIntensity, uniformShininess);
-		//Arbol
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(3.0f, 6.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		TexTree.UseTexture();
-		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		Tree.RenderModel();
+		
 		//Ventana modelo
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-49.5f, 7.5f, 25.0f));
 		model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.15f, 0.1f, 0.25f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		pisoTexture.UseTexture();
 		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		Windo.RenderModel();
 		//Ventana modelo
@@ -737,6 +729,17 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		Windo.RenderModel();
+		//Arbol
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-25.0f, -2.2f, -35.0f));
+		model = glm::scale(model, glm::vec3(0.03f, 0.03f, 0.03f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		brickTexture.UseTexture();
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Tree.RenderModel();
+
 		//modelo
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(3.0f, 6.0f, 0.0f));
