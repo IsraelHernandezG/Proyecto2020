@@ -68,7 +68,7 @@ Model Windo;
 Model Tree;
 Model Roca;
 Model Pizza;
-
+Model Pan;
 Skybox skybox;
 
 GLfloat deltaTime = 0.0f;
@@ -619,6 +619,9 @@ int main()
 
 	Pizza= Model();
 	Pizza.LoadModel("Models/Pizza1.obj");
+
+	Pan = Model();
+	Pan.LoadModel("Models/Pan.obj");
 	//luz direccional, sólo 1 y siempre debe de existir
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f, 
 								0.3f, 0.3f,
@@ -777,6 +780,17 @@ int main()
 		//Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		Pizza.RenderModel();
 		
+		//Pan
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, -1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		PizzaTex.UseTexture();
+		//Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Pan.RenderModel();
 		//modelo
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(3.0f, 6.0f, 0.0f));
