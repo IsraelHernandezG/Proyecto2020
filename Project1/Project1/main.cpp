@@ -51,6 +51,9 @@ Texture terrainTexture;
 Texture TexTree;
 Texture carTexture;
 Texture Tagave;
+
+Texture PizzaTex;
+Texture RocaTex;
 //materiales
 Material Material_brillante;
 Material Material_opaco;
@@ -63,6 +66,9 @@ SpotLight spotLights[MAX_SPOT_LIGHTS];
 Model Blackhawk_M;
 Model Windo;
 Model Tree;
+Model Roca;
+Model Pizza;
+
 Skybox skybox;
 
 GLfloat deltaTime = 0.0f;
@@ -586,8 +592,10 @@ int main()
 	paredLadrilloTexture.LoadTextureA();
 	paredLadrillo2Texture = Texture("Textures/pared2.tga");
 	paredLadrillo2Texture.LoadTextureA();
-	//TexTree = Texture("Models/10447_Pine_Tree_v1_Diffuse.png");
-	//TexTree.LoadTextureA();
+	RocaTex = Texture("Textures/pared2.png");
+	RocaTex.LoadTextureA();
+	PizzaTex = Texture("Textures/pared2.png");
+	PizzaTex.LoadTextureA();
 	Tagave = Texture("Textures/Agave.tga");
 	Tagave.LoadTextureA();
 	terrainTexture = Texture("Textures/pasto.tga");
@@ -606,6 +614,11 @@ int main()
 	Tree = Model();
 	Tree.LoadModel("Models/10447_Pine_Tree_v1_L3b.obj");
 	
+	Roca = Model();
+	Roca.LoadModel("Models/Pizza.obj");
+
+	Pizza= Model();
+	Pizza.LoadModel("Models/Pizza1.obj");
 	//luz direccional, sólo 1 y siempre debe de existir
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f, 
 								0.3f, 0.3f,
@@ -740,6 +753,30 @@ int main()
 		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		Tree.RenderModel();
 
+		//Cabeza Roca
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-25.0f, -4.0f, 47.0f));
+		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		RocaTex.UseTexture();
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Roca.RenderModel();
+
+		//Pizza
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		PizzaTex.UseTexture();
+		//Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Pizza.RenderModel();
+		
 		//modelo
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(3.0f, 6.0f, 0.0f));
