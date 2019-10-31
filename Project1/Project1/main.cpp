@@ -71,6 +71,7 @@ Model Pizza;
 Model Pan;
 Model Dulce;
 Model Calabaza;
+Model Mesa;
 Model Gisado;
 Skybox skybox;
 
@@ -627,6 +628,8 @@ int main()
 	Pan.LoadModel("Models/Pan.obj");
 	Calabaza = Model();
 	Calabaza.LoadModel("Models/Pumpkin.obj");
+	Mesa = Model();
+	Mesa.LoadModel("Models/table.obj");
 	
 	Gisado = Model();
 	Gisado.LoadModel("Models/13561_Shrimp_Sausage_Jambalaya_v1_L1.obj");
@@ -830,7 +833,7 @@ int main()
 
 		//Calabaza
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-31.0f, -2.0f, 10.0f));
+		model = glm::translate(model, glm::vec3(-33.0f, -2.0f, 10.0f));
 		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 		//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
@@ -840,8 +843,19 @@ int main()
 		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		Calabaza.RenderModel();
 
+		//Mesa
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-26.5f, 0.0f, 5.0f));
+		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
+		//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		PizzaTex.UseTexture();
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Mesa.RenderModel();
 
-		//Calabaza
+		//Gisado
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.0f, 6.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
