@@ -69,6 +69,8 @@ Model Tree;
 Model Roca;
 Model Pizza;
 Model Pan;
+Model Dulce;
+
 Skybox skybox;
 
 GLfloat deltaTime = 0.0f;
@@ -89,8 +91,8 @@ static const char* vShader = "shaders/shader_light.vert";
 // Fragment Shader
 static const char* fShader = "shaders/shader_light.frag";
 //cálculo del promedio de las normales para sombreado de Phong
-void calcAverageNormals(unsigned int * indices, unsigned int indiceCount, GLfloat * vertices, unsigned int verticeCount, 
-						unsigned int vLength, unsigned int normalOffset)
+void calcAverageNormals(unsigned int* indices, unsigned int indiceCount, GLfloat* vertices, unsigned int verticeCount,
+	unsigned int vLength, unsigned int normalOffset)
 {
 	for (size_t i = 0; i < indiceCount; i += 3)
 	{
@@ -101,7 +103,7 @@ void calcAverageNormals(unsigned int * indices, unsigned int indiceCount, GLfloa
 		glm::vec3 v2(vertices[in2] - vertices[in0], vertices[in2 + 1] - vertices[in0 + 1], vertices[in2 + 2] - vertices[in0 + 2]);
 		glm::vec3 normal = glm::cross(v1, v2);
 		normal = glm::normalize(normal);
-		
+
 		in0 += normalOffset; in1 += normalOffset; in2 += normalOffset;
 		vertices[in0] += normal.x; vertices[in0 + 1] += normal.y; vertices[in0 + 2] += normal.z;
 		vertices[in1] += normal.x; vertices[in1 + 1] += normal.y; vertices[in1 + 2] += normal.z;
@@ -117,9 +119,9 @@ void calcAverageNormals(unsigned int * indices, unsigned int indiceCount, GLfloa
 	}
 }
 
-void CreateObjects() 
+void CreateObjects()
 {
-	unsigned int indices[] = {		
+	unsigned int indices[] = {
 		0, 3, 1,
 		1, 3, 2,
 		2, 3, 0,
@@ -127,11 +129,11 @@ void CreateObjects()
 	};
 
 	GLfloat vertices[] = {
-	//	x      y      z			u	  v			nx	  ny    nz
-		-1.0f, -1.0f, -0.6f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f,
-		0.0f, -1.0f, 1.0f,		0.5f, 0.0f,		0.0f, 0.0f, 0.0f,
-		1.0f, -1.0f, -0.6f,		1.0f, 0.0f,		0.0f, 0.0f, 0.0f,
-		0.0f, 1.0f, 0.0f,		0.5f, 1.0f,		0.0f, 0.0f, 0.0f
+		//	x      y      z			u	  v			nx	  ny    nz
+			-1.0f, -1.0f, -0.6f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f,
+			0.0f, -1.0f, 1.0f,		0.5f, 0.0f,		0.0f, 0.0f, 0.0f,
+			1.0f, -1.0f, -0.6f,		1.0f, 0.0f,		0.0f, 0.0f, 0.0f,
+			0.0f, 1.0f, 0.0f,		0.5f, 1.0f,		0.0f, 0.0f, 0.0f
 	};
 
 	unsigned int terrainIndices[] = {
@@ -169,19 +171,19 @@ void CreateObjects()
 		-10.0f, 10.0f, 0.0f,	0.0f, 2.0f,	0.0f, 0.0f, -1.0f,
 		10.0f, 10.0f, 0.0f,		5.0f, 2.0f,	0.0f, 0.0f, -1.0f,
 	};
-	
+
 	calcAverageNormals(indices, 12, vertices, 32, 8, 5);
 	//0
-	Mesh *obj0 = new Mesh();
+	Mesh* obj0 = new Mesh();
 	obj0->CreateMesh(terrainVertices, terrainIndices, 32, 6);
 	meshList.push_back(obj0);
 	//1
-	Mesh *obj1 = new Mesh();
+	Mesh* obj1 = new Mesh();
 	obj1->CreateMesh(floorVertices, floorIndices, 32, 6);
 	meshList.push_back(obj1);
 
 	//2
-	Mesh *obj2 = new Mesh();
+	Mesh* obj2 = new Mesh();
 	obj2->CreateMesh(wallVertices, wallIndices, 32, 6);
 	meshList.push_back(obj2);
 
@@ -253,8 +255,8 @@ void CrearCubo()
 		 -0.5f, 0.5f,  -0.5f,	0.27f,	0.98f,		0.0f,	-1.0f,	0.0f,
 
 	};
-	
-	Mesh *cubo = new Mesh();
+
+	Mesh* cubo = new Mesh();
 	cubo->CreateMesh(cubo_vertices, cubo_indices, 192, 36);
 	meshList.push_back(cubo);
 
@@ -262,7 +264,7 @@ void CrearCubo()
 
 void CreateShaders()
 {
-	Shader *shader1 = new Shader();
+	Shader* shader1 = new Shader();
 	shader1->CreateFromFiles(vShader, fShader);
 	shaderList.push_back(*shader1);
 }
@@ -550,7 +552,7 @@ void DisplayHouse(glm::mat4 model, GLuint uniformModel, GLuint uniformSpecularIn
 
 	//pared 9 De en medio 
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(-30.0f,5.0f, 0.0f));
+	model = glm::translate(model, glm::vec3(-30.0f, 5.0f, 0.0f));
 	model = glm::scale(model, glm::vec3(2.0f, 0.8f, 0.5f));
 	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -565,12 +567,12 @@ void DisplayHouse(glm::mat4 model, GLuint uniformModel, GLuint uniformSpecularIn
 	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 	meshList[2]->RenderMesh();
 
-	
+
 
 
 }
 
-int main() 
+int main()
 {
 	mainWindow = Window(1366, 768); // 1280, 1024 or 1024, 768
 	mainWindow.Initialise();
@@ -578,9 +580,9 @@ int main()
 	CreateObjects();
 	//CrearCubo();
 	CreateShaders();
-	
+
 	camera = Camera(glm::vec3(-37.0f, 3.0f, 12.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 5.0f, 0.5f);
-	
+
 	//Textures
 	brickTexture = Texture("Textures/brick.png");
 	brickTexture.LoadTextureA();
@@ -613,28 +615,30 @@ int main()
 
 	Tree = Model();
 	Tree.LoadModel("Models/10447_Pine_Tree_v1_L3b.obj");
-	
+
 	Roca = Model();
 	Roca.LoadModel("Models/Pizza.obj");
 
-	Pizza= Model();
+	Pizza = Model();
 	Pizza.LoadModel("Models/Pizza1.obj");
 
 	Pan = Model();
 	Pan.LoadModel("Models/Pan.obj");
+	Dulce = Model();
+	Dulce.LoadModel("Models/HalloweenCandy.obj");
 	//luz direccional, sólo 1 y siempre debe de existir
-	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f, 
-								0.3f, 0.3f,
-								0.0f, 0.0f, -1.0f);
+	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
+		0.3f, 0.3f,
+		0.0f, 0.0f, -1.0f);
 	//contador de luces puntuales
 	unsigned int pointLightCount = 0;
 	//Declaración de primer luz puntual
 	pointLights[0] = PointLight(1.0f, 1.0f, 0.0f,
-								0.0f, 1.0f,
-								2.0f, 1.5f,1.5f,
-								0.3f, 0.2f, 0.1f);
+		0.0f, 1.0f,
+		2.0f, 1.5f, 1.5f,
+		0.3f, 0.2f, 0.1f);
 	pointLightCount++;
-	
+
 	unsigned int spotLightCount = 0;
 	//luz fija
 	spotLights[0] = SpotLight(0.0f, 0.0f, 1.0f,
@@ -652,7 +656,7 @@ int main()
 		1.0f, 0.0f, 0.0f,
 		20.0f);
 	spotLightCount++;
-	
+
 
 	std::vector<std::string> skyboxFaces;
 	skyboxFaces.push_back("Textures/Skybox/hills_ft.tga");
@@ -673,9 +677,9 @@ int main()
 	while (!mainWindow.getShouldClose())
 	{
 		GLfloat now = glfwGetTime();
-		deltaTime = now - lastTime; 
+		deltaTime = now - lastTime;
 		lastTime = now;
-		
+
 		//Recibir eventos del usuario
 		glfwPollEvents();
 
@@ -694,7 +698,7 @@ int main()
 		uniformShininess = shaderList[0].GetShininessLocation();
 
 
-		
+
 		glm::vec3 lowerLight = camera.getCameraPosition();
 		lowerLight.y -= 0.3f;
 		spotLights[1].SetFlash(lowerLight, camera.getCameraDirection());
@@ -702,9 +706,9 @@ int main()
 		shaderList[0].SetDirectionalLight(&mainLight);
 		shaderList[0].SetPointLights(pointLights, pointLightCount);
 		shaderList[0].SetSpotLights(spotLights, spotLightCount);
-		
+
 		banderaL = mainWindow.getBandera();
-		if (banderaL == 0){
+		if (banderaL == 0) {
 			spotLightCount = 1;
 		}
 		else {
@@ -720,14 +724,14 @@ int main()
 		//plano terreno
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.0f, -2.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(30.0f, 1.0f,30.0f));
+		model = glm::scale(model, glm::vec3(30.0f, 1.0f, 30.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		terrainTexture.UseTexture();
 		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		meshList[0]->RenderMesh();
 
 		DisplayHouse(model, uniformModel, uniformSpecularIntensity, uniformShininess);
-		
+
 		//Ventana modelo
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-49.5f, 7.5f, 25.0f));
@@ -779,7 +783,7 @@ int main()
 		PizzaTex.UseTexture();
 		//Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		Pizza.RenderModel();
-		
+
 		//Pan
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.0f, -1.0f, 0.0f));
@@ -791,11 +795,26 @@ int main()
 		PizzaTex.UseTexture();
 		//Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		Pan.RenderModel();
+
+
+		//Dulce
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 3.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		PizzaTex.UseTexture();
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Dulce.RenderModel();
+
+
 		//modelo
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(3.0f, 6.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
-		model = glm::rotate(model, -90* toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
@@ -805,7 +824,7 @@ int main()
 		//glEnable(GL_BLEND);
 		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		//glDisable(GL_BLEND);
-			glUseProgram(0);
+		glUseProgram(0);
 
 		mainWindow.swapBuffers();
 	}
