@@ -5,6 +5,7 @@ Window::Window()
 	width = 800;
 	height = 600;
 	banderaL = 0;
+	banderaCamara = 0;
 	for (size_t i = 0; i < 1024; i++)
 	{
 		keys[i] = 0;
@@ -15,6 +16,7 @@ Window::Window(GLint windowWidth, GLint windowHeight)
 	width = windowWidth;
 	height = windowHeight;
 	banderaL = 0;
+	banderaCamara = 0;
 	for (size_t i = 0; i < 1024; i++)
 	{
 		keys[i] = 0;
@@ -110,20 +112,32 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 			theWindow-> banderaL = 1;
 		else
 			theWindow->banderaL = 0;
+		glfwWaitEventsTimeout(1.7);
 	}
-	
 
+	if (key == GLFW_KEY_1 && action == GLFW_PRESS)
+	{
+		theWindow->banderaCamara = 0;
+	}
+
+	if (key == GLFW_KEY_2 && action == GLFW_PRESS)
+	{
+		theWindow->banderaCamara = 1;
+	}
+
+
+	
 	if (key >= 0 && key < 1024)
 	{
 		if (action == GLFW_PRESS)
 		{
 			theWindow->keys[key] = true;
-			printf("se presiono la tecla %d'\n", key);
+			//printf("se presiono la tecla %d'\n", key);
 		}
 		else if (action == GLFW_RELEASE)
 		{
 			theWindow->keys[key] = false;
-			printf("se solto la tecla %d'\n", key);
+			//printf("se solto la tecla %d'\n", key);
 		}
 	}
 }

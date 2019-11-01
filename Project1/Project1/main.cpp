@@ -4,6 +4,13 @@ Proyecto final
 //para cargar imagen
 #define STB_IMAGE_IMPLEMENTATION
 
+//bibliotecas para el manejo de archivos
+#include <iostream>
+#include <stdlib.h>
+#include <fstream>
+#include <sstream>
+//#include <string> 
+
 #include <stdio.h>
 #include <string.h>
 #include <cmath>
@@ -33,6 +40,7 @@ Proyecto final
 #include "Skybox.h"
 #include"SpotLight.h"
 
+using namespace std;
 const float toRadians = 3.14159265f / 180.0f;
 float movCoche;
 float movOffset;
@@ -41,6 +49,8 @@ Window mainWindow;
 std::vector<Mesh*> meshList;
 std::vector<Shader> shaderList;
 Camera camera;
+//
+int banderaCamara = 0;
 
 Texture brickTexture;
 Texture plainTexture;
@@ -50,7 +60,13 @@ Texture paredLadrillo2Texture;
 Texture terrainTexture;
 Texture TexTree;
 Texture carTexture;
+Texture panMuertoTexture;
 Texture Tagave;
+Texture vidrioTexture;
+Texture papelPicado1;
+Texture papelPicado2;
+Texture papelPicado3;
+Texture papelPicado4;
 
 Texture PizzaTex;
 Texture RocaTex;
@@ -73,6 +89,7 @@ Model Dulce;
 Model Calabaza;
 Model Mesa;
 Model Gisado;
+Model PanMuerto;
 Skybox skybox;
 
 GLfloat deltaTime = 0.0f;
@@ -119,6 +136,53 @@ void calcAverageNormals(unsigned int* indices, unsigned int indiceCount, GLfloat
 		vec = glm::normalize(vec);
 		vertices[nOffset] = vec.x; vertices[nOffset + 1] = vec.y; vertices[nOffset + 2] = vec.z;
 	}
+}
+
+void creaArchivo(string name) {
+	ofstream fs(name.c_str());
+	fs.close();
+}
+
+string leerArchivo(string name, long numlinea) {
+	ifstream fs(name.c_str(), ios::in);
+	char linea[128];
+	long contador = 0L;
+	if (fs.fail())
+		printf("el fichero no existe\n");
+	else
+		while (!fs.eof()) {
+			fs.getline(linea, sizeof(linea));
+
+			if (numlinea == contador) {
+				//cout << linea << endl;
+				string str(linea);
+				return str;
+				break;
+			}
+			contador++;
+		}
+	fs.close();
+
+}
+
+void readFile(string name) {
+	ifstream fs(name.c_str(), ios::in);
+	char linea[128];
+	long contador = 0L;
+	if (fs.fail())
+		printf("el fichero no existe\n");
+	else
+		while (!fs.eof()) {
+			fs.getline(linea, sizeof(linea));
+			cout << linea << endl;
+		}
+	fs.close();
+}
+
+void editarArchivo(string name, string contenido) {
+	ofstream fs(name.c_str(), ios::app);
+	fs << contenido << endl;
+	fs.close();
 }
 
 void CreateObjects()
@@ -174,6 +238,18 @@ void CreateObjects()
 		10.0f, 10.0f, 0.0f,		5.0f, 2.0f,	0.0f, 0.0f, -1.0f,
 	};
 
+	unsigned int cuadroIndices[] = {
+		0, 2, 1,
+		1, 2, 3
+	};
+
+	GLfloat cuadroVertices[] = {
+		-1.0f, -1.0f, 0.0f,	0.0f, 0.0f,	0.0f, 0.0f, -1.0f,
+		1.0f, -1.0f, 0.0f,	1.0f, 0.0f,	0.0f, 0.0f, -1.0f,
+		-1.0f, 1.0f, 0.0f,	0.0f, 1.0f,	0.0f, 0.0f, -1.0f,
+		1.0f, 1.0f, 0.0f,	1.0f, 1.0f,	0.0f, 0.0f, -1.0f,
+	};
+
 	calcAverageNormals(indices, 12, vertices, 32, 8, 5);
 	//0
 	Mesh* obj0 = new Mesh();
@@ -188,6 +264,11 @@ void CreateObjects()
 	Mesh* obj2 = new Mesh();
 	obj2->CreateMesh(wallVertices, wallIndices, 32, 6);
 	meshList.push_back(obj2);
+
+	//3 cuadro simple
+	Mesh* obj3 = new Mesh();
+	obj3->CreateMesh(cuadroVertices, cuadroIndices, 32, 6);
+	meshList.push_back(obj3);
 
 }
 
@@ -270,6 +351,231 @@ void CreateShaders()
 	shader1->CreateFromFiles(vShader, fShader);
 	shaderList.push_back(*shader1);
 }
+
+///////////////////////////////KEYFRAMES/////////////////////
+
+bool animacion = false;
+
+//NEW// Keyframes
+float posXavion = 2.0,
+posYavion = 2.0,
+posZavion = 0;
+
+float movAvion_x = 0.0f,
+movAvion_y = 0.0f,
+movAvion_z = 0.0f,
+giroAvion = 0;
+
+#define MAX_FRAMES 100
+int i_max_steps = 90;
+int i_curr_steps = 5;
+typedef struct _frame
+{
+	//Variables para GUARDAR Key Frames
+	float movAvion_x;		//Variable para PosicionX
+	float movAvion_y;		//Variable para PosicionY
+	float movAvion_z;		//Variable para PosicionZ
+	float movAvion_xInc;		//Variable para IncrementoX
+	float movAvion_yInc;		//Variable para IncrementoY
+	float movAvion_zInc;		//Variable para IncrementoZ
+	float giroAvion;
+	float giroAvionInc;
+}FRAME;
+
+FRAME KeyFrame[MAX_FRAMES];
+int FrameIndex = 5;			//introducir datos
+bool play = false;
+int playIndex = 0;
+
+void saveFrame(void)
+{
+	string name = "animation.txt";
+	std::string s = "";
+	std::ostringstream strsX, strsY, strsZ, strsRY, strs;
+
+	printf("frameindex %d\n", FrameIndex);
+
+
+	KeyFrame[FrameIndex].movAvion_x = movAvion_x;
+	strsX << movAvion_x;
+	s = strsX.str();
+	editarArchivo(name, s);
+
+	KeyFrame[FrameIndex].movAvion_y = movAvion_y;
+	strsY << movAvion_y;
+	s = strsY.str();
+	editarArchivo(name, s);
+
+	KeyFrame[FrameIndex].movAvion_z = movAvion_z;
+	strsZ << movAvion_z;
+	s = strsZ.str();
+	editarArchivo(name, s);
+
+	KeyFrame[FrameIndex].giroAvion = giroAvion;
+	strsRY << giroAvion;
+	s = strsRY.str();
+	editarArchivo(name, s);
+
+	FrameIndex++;
+	strs << FrameIndex;
+	s = strs.str();
+	creaArchivo("frames.txt");
+	editarArchivo("frames.txt", s);
+}
+
+void cargaFrames(void) {
+	//KeyFrame[MAX_FRAMES];
+	FrameIndex = 0;
+	playIndex = 0;
+
+	string name = "animation.txt";
+	string salida = leerArchivo("frames.txt", 0L);
+	std::string::size_type sz;   // alias of size_t
+	long numFrames = std::stol(salida, &sz);
+
+	long i;
+	for (i = 0; i <= numFrames - 1; i++) {
+
+		salida = leerArchivo(name, 4 * i);
+		double l_posX = std::stod(salida, &sz);
+		KeyFrame[FrameIndex].movAvion_x = l_posX;
+
+		salida = leerArchivo(name, 4 * i + 1);
+		double l_posY = std::stod(salida, &sz);
+		KeyFrame[FrameIndex].movAvion_y = l_posY;
+
+		salida = leerArchivo(name, 4 * i + 2);
+		double l_posZ = std::stod(salida, &sz);
+		KeyFrame[FrameIndex].movAvion_z = l_posZ;
+
+		salida = leerArchivo(name, 4 * i + 3);
+		double l_rotY = std::stod(salida, &sz);
+		KeyFrame[FrameIndex].giroAvion = l_rotY;
+
+		FrameIndex++;
+	}
+}
+
+void resetElements(void)
+{
+	movAvion_x = KeyFrame[0].movAvion_x;
+	movAvion_y = KeyFrame[0].movAvion_y;
+	movAvion_z = KeyFrame[0].movAvion_z;
+	giroAvion = KeyFrame[0].giroAvion;
+}
+
+void interpolation(void)
+{
+	KeyFrame[playIndex].movAvion_xInc = (KeyFrame[playIndex + 1].movAvion_x - KeyFrame[playIndex].movAvion_x) / i_max_steps;
+	KeyFrame[playIndex].movAvion_yInc = (KeyFrame[playIndex + 1].movAvion_y - KeyFrame[playIndex].movAvion_y) / i_max_steps;
+	KeyFrame[playIndex].movAvion_zInc = (KeyFrame[playIndex + 1].movAvion_z - KeyFrame[playIndex].movAvion_z) / i_max_steps;
+	KeyFrame[playIndex].giroAvionInc = (KeyFrame[playIndex + 1].giroAvion - KeyFrame[playIndex].giroAvion) / i_max_steps;
+
+}
+
+
+void animate(void)
+{
+	//Movimiento del objeto
+	if (play)
+	{
+		if (i_curr_steps >= i_max_steps) //end of animation between frames?
+		{
+			playIndex++;
+			printf("playindex : %d\n", playIndex);
+			if (playIndex > FrameIndex - 2)	//end of total animation?
+			{
+				printf("Frame index= %d\n", FrameIndex);
+				printf("termina anim\n");
+				playIndex = 0;
+				play = false;
+			}
+			else //Next frame interpolations
+			{
+				//printf("entro aquí\n");
+				i_curr_steps = 0; //Reset counter
+				//Interpolation
+				interpolation();
+			}
+		}
+		else
+		{
+			//printf("se quedó aqui\n");
+			//printf("max steps: %f", i_max_steps);
+			//Draw animation
+			movAvion_x += KeyFrame[playIndex].movAvion_xInc;
+			movAvion_y += KeyFrame[playIndex].movAvion_yInc;
+			movAvion_z += KeyFrame[playIndex].movAvion_zInc;
+			giroAvion += KeyFrame[playIndex].giroAvionInc;
+			i_curr_steps++;
+		}
+
+	}
+}
+
+void inputKeyframes(bool* keys)
+{
+
+	//Para vaciar el fichero
+	if (keys[GLFW_KEY_V]) {
+
+		creaArchivo("animation.txt");
+		creaArchivo("frames.txt");
+		glfwWaitEventsTimeout(1.7);
+
+	}
+
+	//Para leer el fichero
+	if (keys[GLFW_KEY_R]) {
+
+		readFile("animation.txt");
+		//cargaFrames();
+		glfwWaitEventsTimeout(1.7);
+
+	}
+
+	//Para cargar las posiciones guardadas en el arreglo de estructuras
+	if (keys[GLFW_KEY_L]) {
+
+		cargaFrames();
+		glfwWaitEventsTimeout(1.7);
+
+	}
+	
+
+	//To Save a KeyFrame
+	if (keys[GLFW_KEY_G]){
+
+		if (FrameIndex < MAX_FRAMES)
+		{
+			saveFrame();
+			glfwWaitEventsTimeout(1.7); //delay para evitar lecturas erroneas del teclado
+		}
+	}
+	
+	//To play KeyFrame animation 
+	if (keys[GLFW_KEY_P])
+	{
+		if (play == false && (FrameIndex > 1))
+		{
+			resetElements();
+			//First Interpolation				
+			interpolation();
+
+			play = true;
+			playIndex = 0;
+			i_curr_steps = 0;
+		}
+		else
+		{
+			play = false;
+		}
+		glfwWaitEventsTimeout(1.7);
+	}
+
+}
+
+/* FIN KEYFRAMES*/
 
 void DisplayHouse(glm::mat4 model, GLuint uniformModel, GLuint uniformSpecularIntensity, GLuint uniformShininess) {
 	//plano piso
@@ -569,9 +875,213 @@ void DisplayHouse(glm::mat4 model, GLuint uniformModel, GLuint uniformSpecularIn
 	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 	meshList[2]->RenderMesh();
 
+	//Ventana 1 modelo 
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-49.5f, 7.5f, 25.0f));
+	model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(0.15f, 0.1f, 0.25f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	pisoTexture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	Windo.RenderModel();
+	//Ventana 2 modelo
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-49.5f, 7.5f, -25.0f));
+	model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(0.15f, 0.1f, 0.25f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	Windo.RenderModel();
+
+	//vidrio con transparencia 1
+	//blending: transparencia o traslucidez de una imagen
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-49.5f, 7.5f, -25.0f));
+	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(4.0f, 3.25f, 1.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	vidrioTexture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[3]->RenderMesh();
 
 
+	//vidrio con transparencia 2
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-49.5f, 7.5f, 25.0f));
+	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(4.5f, 3.5f, 1.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	vidrioTexture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[3]->RenderMesh();
 
+	glDisable(GL_BLEND);
+
+}
+
+void DisplayEscenarioMuertos(glm::mat4 model, GLuint uniformModel, GLuint uniformSpecularIntensity, GLuint uniformShininess) {
+	//Aqui se dibujan los elementos y modelos del cuarto de dia de muertos
+
+	//Cabeza Roca
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-25.0f, -4.0f, 47.0f));
+	model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	RocaTex.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	Roca.RenderModel();
+
+	//Pizza
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	PizzaTex.UseTexture();
+	//Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	Pizza.RenderModel();
+
+	//Pan
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(0.0f, -1.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	PizzaTex.UseTexture();
+	//Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	Pan.RenderModel();
+
+	//Pan de muerto
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(3.0f, 0.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	panMuertoTexture.UseTexture();
+	//Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	PanMuerto.RenderModel();
+
+
+	//Dulce
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(0.0f, 3.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	PizzaTex.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	Dulce.RenderModel();
+
+	//Calabaza
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-19.0f, -2.0f, 10.0f));
+	model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	PizzaTex.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	Calabaza.RenderModel();
+
+	//Calabaza
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-33.0f, -2.0f, 10.0f));
+	model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	PizzaTex.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	Calabaza.RenderModel();
+
+	//Mesa
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-26.5f, 0.0f, 5.0f));
+	model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	PizzaTex.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	Mesa.RenderModel();
+
+	//Gisado
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(0.0f, 6.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	PizzaTex.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	Gisado.RenderModel();
+
+
+	//papel picado
+	//blending: transparencia o traslucidez de una imagen
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-26.5f, 9.0f, 5.0f));
+	//model = glm::rotate(model, 0 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(3.0f, 3.0f, 1.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	papelPicado1.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[3]->RenderMesh();
+
+	//
+	model = glm::translate(model, glm::vec3(2.0f, 0.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	papelPicado2.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[3]->RenderMesh();
+
+	//
+	model = glm::translate(model, glm::vec3(2.0f, 0.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	papelPicado3.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[3]->RenderMesh();
+
+	//
+	model = glm::translate(model, glm::vec3(-6.0f, 0.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	papelPicado4.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[3]->RenderMesh();
+
+	glDisable(GL_BLEND);
+}
+
+void DisplayEscenarioNavidad(glm::mat4 model, GLuint uniformModel, GLuint uniformSpecularIntensity, GLuint uniformShininess) {
+	//Aqui se dibujan los elementos y modelos del cuarto de Navidad
+
+	//Arbol de navidad
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-25.0f, -2.2f, -35.0f));
+	model = glm::scale(model, glm::vec3(0.03f, 0.03f, 0.03f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	brickTexture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	Tree.RenderModel();
+	
 }
 
 int main()
@@ -604,6 +1114,19 @@ int main()
 	Tagave.LoadTextureA();
 	terrainTexture = Texture("Textures/pasto.tga");
 	terrainTexture.LoadTextureA();
+	panMuertoTexture = Texture("Textures/ch1.png");
+	panMuertoTexture.LoadTextureA();
+	vidrioTexture = Texture("Textures/VIDRIO.tga");
+	vidrioTexture.LoadTextureA();
+	papelPicado1 = Texture("Textures/papel_picado1.tga");
+	papelPicado1.LoadTextureA();
+	papelPicado2 = Texture("Textures/papel_picado2.tga");
+	papelPicado2.LoadTextureA();
+	papelPicado3 = Texture("Textures/papel_picado3.tga");
+	papelPicado3.LoadTextureA();
+	papelPicado4 = Texture("Textures/ingenieria_papel.tga");
+	papelPicado4.LoadTextureA();
+	
 
 	Material_brillante = Material(4.0f, 256);
 	Material_opaco = Material(0.3f, 4);
@@ -636,6 +1159,11 @@ int main()
 	
 	Dulce = Model();
 	Dulce.LoadModel("Models/HalloweenCandy.obj");
+
+	PanMuerto = Model();
+	PanMuerto.LoadModel("Models/Comida2.obj");
+
+
 	//luz direccional, sólo 1 y siempre debe de existir
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
 		0.3f, 0.3f,
@@ -667,6 +1195,9 @@ int main()
 		20.0f);
 	spotLightCount++;
 
+	//cargando keyframes de archivo de texto
+	//cargaFrames();
+
 
 	std::vector<std::string> skyboxFaces;
 	skyboxFaces.push_back("Textures/Skybox/hills_ft.tga");
@@ -693,7 +1224,19 @@ int main()
 		//Recibir eventos del usuario
 		glfwPollEvents();
 
-		camera.keyControl(mainWindow.getsKeys(), deltaTime);
+		//para keyframes
+		inputKeyframes(mainWindow.getsKeys());
+		animate();
+
+		banderaCamara = mainWindow.getBanderaCamara();
+
+		if (banderaCamara == 0) {
+			camera.keyControl(mainWindow.getsKeys(), deltaTime);
+		}
+		else {
+			camera.keyControlFree(mainWindow.getsKeys(), deltaTime);
+		}
+		
 		camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
 		// Clear the window
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -740,133 +1283,17 @@ int main()
 		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		meshList[0]->RenderMesh();
 
+		//dibujando la estructura de la casa
 		DisplayHouse(model, uniformModel, uniformSpecularIntensity, uniformShininess);
 
-		//Ventana modelo
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-49.5f, 7.5f, 25.0f));
-		model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.15f, 0.1f, 0.25f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		pisoTexture.UseTexture();
-		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		Windo.RenderModel();
-		//Ventana modelo
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-49.5f, 7.5f, -25.0f));
-		model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.15f, 0.1f, 0.25f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		Windo.RenderModel();
-		//Arbol
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-25.0f, -2.2f, -35.0f));
-		model = glm::scale(model, glm::vec3(0.03f, 0.03f, 0.03f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		brickTexture.UseTexture();
-		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		Tree.RenderModel();
+		//renderizado del cuarto navideño
+		DisplayEscenarioNavidad(model, uniformModel, uniformSpecularIntensity, uniformShininess);
 
-		//Cabeza Roca
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-25.0f, -4.0f, 47.0f));
-		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
-		//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		RocaTex.UseTexture();
-		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		Roca.RenderModel();
+		//renderizado del cuarto de dia de muertos
+		DisplayEscenarioMuertos(model, uniformModel, uniformSpecularIntensity, uniformShininess);
 
-		//Pizza
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
-		//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		PizzaTex.UseTexture();
-		//Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		Pizza.RenderModel();
-
-		//Pan
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, -1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
-		//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		PizzaTex.UseTexture();
-		//Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		Pan.RenderModel();
-
-
-		//Dulce
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 3.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
-		//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		PizzaTex.UseTexture();
-		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		Dulce.RenderModel();
-
-		//Calabaza
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-19.0f, -2.0f, 10.0f));
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-		//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
-		//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		PizzaTex.UseTexture();
-		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		Calabaza.RenderModel();
-
-		//Calabaza
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-33.0f, -2.0f, 10.0f));
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-		//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		PizzaTex.UseTexture();
-		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		Calabaza.RenderModel();
-
-		//Mesa
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-26.5f, 0.0f, 5.0f));
-		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
-		//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		PizzaTex.UseTexture();
-		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		Mesa.RenderModel();
-
-		//Gisado
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 6.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-		//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		PizzaTex.UseTexture();
-		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		Gisado.RenderModel();
-		//modelo
+		
+		//modelo helicoptero
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(3.0f, 6.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
@@ -876,7 +1303,7 @@ int main()
 		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		Blackhawk_M.RenderModel();
 
-		//blending: transparencia o traslucidez
+		//blending: transparencia o traslucidez de una imagen
 		//glEnable(GL_BLEND);
 		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		//glDisable(GL_BLEND);
