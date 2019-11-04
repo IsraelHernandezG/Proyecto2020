@@ -90,6 +90,10 @@ Model Calabaza;
 Model Mesa;
 Model Gisado;
 Model PanMuerto;
+Model NocheBuena;
+Model Huesos;
+Model Pinata;
+Model Corona;
 Skybox skybox;
 
 GLfloat deltaTime = 0.0f;
@@ -578,6 +582,9 @@ void inputKeyframes(bool* keys)
 /* FIN KEYFRAMES*/
 
 void DisplayHouse(glm::mat4 model, GLuint uniformModel, GLuint uniformSpecularIntensity, GLuint uniformShininess) {
+	
+	
+	
 	//plano piso
 	model = glm::mat4(1.0);
 	model = glm::translate(model, glm::vec3(0.0f, -1.95f, 0.0f));
@@ -923,7 +930,8 @@ void DisplayHouse(glm::mat4 model, GLuint uniformModel, GLuint uniformSpecularIn
 
 void DisplayEscenarioMuertos(glm::mat4 model, GLuint uniformModel, GLuint uniformSpecularIntensity, GLuint uniformShininess) {
 	//Aqui se dibujan los elementos y modelos del cuarto de dia de muertos
-
+	//gerarquia con modelAux
+	glm::mat4 modelAux;
 	//Cabeza Roca
 	model = glm::mat4(1.0);
 	model = glm::translate(model, glm::vec3(-25.0f, -4.0f, 47.0f));
@@ -936,51 +944,7 @@ void DisplayEscenarioMuertos(glm::mat4 model, GLuint uniformModel, GLuint unifor
 	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 	Roca.RenderModel();
 
-	//Pizza
-	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-	model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-	model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
-	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	PizzaTex.UseTexture();
-	//Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-	Pizza.RenderModel();
-
-	//Pan
-	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(0.0f, -1.0f, 0.0f));
-	model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-	model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
-	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	PizzaTex.UseTexture();
-	//Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-	Pan.RenderModel();
-
-	//Pan de muerto
-	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(3.0f, 0.0f, 0.0f));
-	model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	panMuertoTexture.UseTexture();
-	//Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-	PanMuerto.RenderModel();
-
-
-	//Dulce
-	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(0.0f, 3.0f, 0.0f));
-	model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
-	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	PizzaTex.UseTexture();
-	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-	Dulce.RenderModel();
+	
 
 	//Calabaza
 	model = glm::mat4(1.0);
@@ -1009,6 +973,7 @@ void DisplayEscenarioMuertos(glm::mat4 model, GLuint uniformModel, GLuint unifor
 	//Mesa
 	model = glm::mat4(1.0);
 	model = glm::translate(model, glm::vec3(-26.5f, 0.0f, 5.0f));
+	modelAux = model;
 	model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
 	//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
@@ -1019,16 +984,125 @@ void DisplayEscenarioMuertos(glm::mat4 model, GLuint uniformModel, GLuint unifor
 	Mesa.RenderModel();
 
 	//Gisado
-	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(0.0f, 6.0f, 0.0f));
-	model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+	model = modelAux;
+	model = glm::translate(model, glm::vec3(-1.5f, 2.6f, 1.0f));
+	modelAux = model;
+	model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
 	//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	PizzaTex.UseTexture();
 	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 	Gisado.RenderModel();
+	//Pizza
+	model = modelAux;
+	model = glm::translate(model, glm::vec3(-2.5f, 0.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	PizzaTex.UseTexture();
+	//Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	Pizza.RenderModel();
+
+	//Pan
+	model = modelAux;
+	model = glm::translate(model, glm::vec3(2.5f, 0.2f, 0.0f));
+	model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	PizzaTex.UseTexture();
+	//Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	Pan.RenderModel();
+
+	//Pan de muerto
+	model = modelAux;
+	model = glm::translate(model, glm::vec3(5.0f, 0.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	panMuertoTexture.UseTexture();
+	//Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	PanMuerto.RenderModel();
+
+
+	//Dulce
+	model = modelAux;
+	model = glm::translate(model, glm::vec3(2.5f, 0.2f, 1.0f));
+	model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	PizzaTex.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	Dulce.RenderModel();
+
+
+	//********************************************************************
+	/*************************Navidad***************************/
+	//Noche buena
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-25.0f, -2.0f, -45.0f));
+	model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	//pisoTexture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	NocheBuena.RenderModel();
+
+	//Noche buena
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-15.0f, -2.0f, -35.0f));
+	model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	//pisoTexture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	NocheBuena.RenderModel();
+
+	//Huesos
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(0.0f, 16.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	//pisoTexture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	Huesos.RenderModel();
+
+	//piñata
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(0.0f, 25.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	//pisoTexture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	Pinata.RenderModel();
+
+	//corona
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-35.0f, -2.0f, -6.0f));
+	model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	//pisoTexture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	Corona.RenderModel();
 
 
 	//papel picado
@@ -1163,7 +1237,17 @@ int main()
 	PanMuerto = Model();
 	PanMuerto.LoadModel("Models/Comida2.obj");
 
+	NocheBuena = Model();
+	NocheBuena.LoadModel("Models/Poinsetta.obj");
+	
+	Huesos = Model();
+	Huesos.LoadModel("Models/skull.obj");
+	
+	Pinata = Model();
+	Pinata.LoadModel("Models/pinata.obj");
 
+	Corona = Model();
+	Corona.LoadModel("Models/Componente_58.obj");
 	//luz direccional, sólo 1 y siempre debe de existir
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
 		0.3f, 0.3f,

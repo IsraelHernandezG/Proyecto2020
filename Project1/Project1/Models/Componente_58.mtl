@@ -1,0 +1,34 @@
+#
+## Alias OBJ Material File
+# Exported from SketchUp, (c) 2000-2012 Trimble Navigation Limited
+
+newmtl Lilac
+Ka 0.000000 0.000000 0.000000
+Kd 0.984314 0.458824 0.011765
+Ks 0.330000 0.330000 0.330000
+map_Kd Componente_58/Lilac.jpg
+
+newmtl Maroon
+Ka 0.000000 0.000000 0.000000
+Kd 0.972549 0.447059 0.454902
+Ks 0.330000 0.330000 0.330000
+map_Kd Componente_58/Maroon.jpg
+
+newmtl M_0010_Snow
+Ka 0.000000 0.000000 0.000000
+Kd 0.835294 0.835294 0.835294
+Ks 0.330000 0.330000 0.330000
+map_Kd Componente_58/M_0010_Snow.jpg
+
+newmtl _DarkGreen_
+Ka 0.000000 0.000000 0.000000
+Kd 0.160784 0.207843 0.027451
+Ks 0.330000 0.330000 0.330000
+map_Kd Componente_58/_DarkGreen_.jpg
+
+newmtl _32
+Ka 0.000000 0.000000 0.000000
+Kd 0.160784 0.207843 0.027451
+Ks 0.330000 0.330000 0.330000
+map_Kd Componente_58/_32.jpg
+
