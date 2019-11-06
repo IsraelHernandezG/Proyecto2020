@@ -99,6 +99,7 @@ Model Cama;
 Model Cama2;
 Model Sillon;
 Model Comedor;
+Model Canasta;
 Model TRICERTP;
 Skybox skybox;
 
@@ -1019,7 +1020,6 @@ void DisplayEscenarioMuertos(glm::mat4 model, GLuint uniformModel, GLuint unifor
 	model = glm::rotate(model, -20 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	//pisoTexture.UseTexture();
 	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 	Huesos.RenderModel();
 	//Mesa
@@ -1030,7 +1030,6 @@ void DisplayEscenarioMuertos(glm::mat4 model, GLuint uniformModel, GLuint unifor
 	model = glm::rotate(model, -60 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	//pisoTexture.UseTexture();
 	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 	MesaC.RenderModel();
 	//cama
@@ -1041,7 +1040,6 @@ void DisplayEscenarioMuertos(glm::mat4 model, GLuint uniformModel, GLuint unifor
 	model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	//pisoTexture.UseTexture();
 	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 	Cama.RenderModel();
 	//sillon Digimon
@@ -1052,7 +1050,6 @@ void DisplayEscenarioMuertos(glm::mat4 model, GLuint uniformModel, GLuint unifor
 	model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	//pisoTexture.UseTexture();
 	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 	Sillon.RenderModel();
 	
@@ -1160,11 +1157,7 @@ void DisplayEscenarioNavidad(glm::mat4 model, GLuint uniformModel, GLuint unifor
 	model = glm::mat4(1.0);
 	model = glm::translate(model, glm::vec3(-50.6f, -3.0f, -10.0f));
 	model = glm::scale(model, glm::vec3(8.0f, 8.0f, 8.0f));
-	//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-	//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	//pisoTexture.UseTexture();
 	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 	Cama2.RenderModel();
 	
@@ -1286,6 +1279,9 @@ int main()
 
 	Sillon = Model();
 	Sillon.LoadModel("Models/sofaD.obj");
+
+	Canasta = Model();
+	Canasta.LoadModel("Models/canasta.obj");
 	//pruebas
 	TRICERTP = Model();
 	TRICERTP.LoadModel("Models/TRICERTP.obj");
@@ -1410,6 +1406,15 @@ int main()
 		terrainTexture.UseTexture();
 		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		meshList[0]->RenderMesh();
+		//Canasta con camara
+		model = glm::mat4(1.0);
+		
+		model = glm::translate(model, camera.getCameraPosition());
+		model = glm::translate(model, glm::vec3(-1.0f, -2.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.02f, 0.02f, 0.02f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Canasta.RenderModel();
 
 		//dibujando la estructura de la casa
 		DisplayHouse(model, uniformModel, uniformSpecularIntensity, uniformShininess);
