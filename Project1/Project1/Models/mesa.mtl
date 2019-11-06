@@ -1,0 +1,80 @@
+#
+## Alias OBJ Material File
+# Exported from SketchUp, (c) 2000-2012 Trimble Navigation Limited
+
+newmtl _Black_
+Ka 0.000000 0.000000 0.000000
+Kd 0.376471 0.427451 0.513725
+Ks 0.330000 0.330000 0.330000
+d 0.790000
+map_Kd mesa/_Black_.jpg
+
+newmtl _Red_
+Ka 0.000000 0.000000 0.000000
+Kd 0.972549 0.447059 0.454902
+Ks 0.330000 0.330000 0.330000
+map_Kd mesa/_Red_.jpg
+
+newmtl _WhiteSmoke_
+Ka 0.000000 0.000000 0.000000
+Kd 0.498039 0.498039 0.494118
+Ks 0.330000 0.330000 0.330000
+map_Kd mesa/_WhiteSmoke_.jpg
+
+newmtl _Snow_
+Ka 0.000000 0.000000 0.000000
+Kd 0.831373 0.831373 0.831373
+Ks 0.330000 0.330000 0.330000
+d 0.300000
+map_Kd mesa/_Snow_.jpg
+
+newmtl _DarkRed_
+Ka 0.000000 0.000000 0.000000
+Kd 0.972549 0.447059 0.454902
+Ks 0.330000 0.330000 0.330000
+d 0.600000
+map_Kd mesa/_DarkRed_.jpg
+
+newmtl _Gainsboro_
+Ka 0.000000 0.000000 0.000000
+Kd 0.835294 0.835294 0.835294
+Ks 0.330000 0.330000 0.330000
+map_Kd mesa/_Gainsboro_.jpg
+
+newmtl _LightCyan_
+Ka 0.000000 0.000000 0.000000
+Kd 0.129412 0.470588 0.737255
+Ks 0.330000 0.330000 0.330000
+d 0.690000
+map_Kd mesa/_LightCyan_.jpg
+
+newmtl _Charcoal_
+Ka 0.000000 0.000000 0.000000
+Kd 0.376471 0.427451 0.513725
+Ks 0.330000 0.330000 0.330000
+map_Kd mesa/_Charcoal_.jpg
+
+newmtl _Gray5_
+Ka 0.000000 0.000000 0.000000
+Kd 0.160784 0.207843 0.027451
+Ks 0.330000 0.330000 0.330000
+map_Kd mesa/_Gray5_.jpg
+
+newmtl _Gray3_
+Ka 0.000000 0.000000 0.000000
+Kd 0.984314 0.458824 0.011765
+Ks 0.330000 0.330000 0.330000
+map_Kd mesa/_Gray3_.jpg
+
+newmtl _CorrogateShiny_2
+Ka 0.000000 0.000000 0.000000
+Kd 0.207843 0.219608 0.247059
+Ks 0.330000 0.330000 0.330000
+map_Kd mesa/_CorrogateShiny_2.jpg
+
+newmtl keyboard_laptop
+Ka 0.000000 0.000000 0.000000
+Kd 0.466667 0.466667 0.466667
+Ks 0.330000 0.330000 0.330000
+map_Kd mesa/keyboard_laptop.jpg
+

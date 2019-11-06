@@ -1,0 +1,40 @@
+#
+## Alias OBJ Material File
+# Exported from SketchUp, (c) 2000-2012 Trimble Navigation Limited
+
+newmtl M_00___camaMaterial__4_0_5
+Ka 0.000000 0.000000 0.000000
+Kd 0.396078 0.435294 0.513725
+Ks 0.330000 0.330000 0.330000
+map_Kd cama/M_00___camaMaterial__4_0_5.jpg
+
+newmtl M_00___camaMaterial__0_0_1
+Ka 0.000000 0.000000 0.000000
+Kd 0.925490 0.925490 0.925490
+Ks 0.330000 0.330000 0.330000
+map_Kd cama/M_00___camaMaterial__0_0_1.jpg
+
+newmtl M_00___FRONHA_2
+Ka 0.000000 0.000000 0.000000
+Kd 0.850980 0.858824 0.878431
+Ks 0.330000 0.330000 0.330000
+map_Kd cama/M_00___FRONHA_2.jpg
+
+newmtl M_00___colcha2
+Ka 0.000000 0.000000 0.000000
+Kd 0.376471 0.427451 0.513725
+Ks 0.330000 0.330000 0.330000
+map_Kd cama/M_00___colcha2.jpg
+
+newmtl M_00___Cabeceira
+Ka 0.000000 0.000000 0.000000
+Kd 0.670588 0.650980 0.635294
+Ks 0.330000 0.330000 0.330000
+map_Kd cama/M_00___Cabeceira.jpg
+
+newmtl M_00___cama_camaTextile_bol2
+Ka 0.000000 0.000000 0.000000
+Kd 0.925490 0.929412 0.913725
+Ks 0.330000 0.330000 0.330000
+map_Kd cama/M_00___cama_camaTextile_bol2.jpg
+

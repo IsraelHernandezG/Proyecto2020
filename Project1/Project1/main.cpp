@@ -94,6 +94,8 @@ Model NocheBuena;
 Model Huesos;
 Model Pinata;
 Model Corona;
+Model MesaC;
+Model Cama;
 Model TRICERTP;
 Skybox skybox;
 
@@ -901,31 +903,7 @@ void DisplayHouse(glm::mat4 model, GLuint uniformModel, GLuint uniformSpecularIn
 	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 	Windo.RenderModel();
 
-	//vidrio con transparencia 1
-	//blending: transparencia o traslucidez de una imagen
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(-49.5f, 7.5f, -25.0f));
-	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-	model = glm::scale(model, glm::vec3(4.0f, 3.25f, 1.0f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	vidrioTexture.UseTexture();
-	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-	meshList[3]->RenderMesh();
 
-
-	//vidrio con transparencia 2
-	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(-49.5f, 7.5f, 25.0f));
-	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-	model = glm::scale(model, glm::vec3(4.5f, 3.5f, 1.0f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	vidrioTexture.UseTexture();
-	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-	meshList[3]->RenderMesh();
-
-	glDisable(GL_BLEND);
 
 }
 
@@ -1030,71 +1008,41 @@ void DisplayEscenarioMuertos(glm::mat4 model, GLuint uniformModel, GLuint unifor
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 	Dulce.RenderModel();
-
-
-	//********************************************************************
-	/*************************Navidad***************************/
-	//Noche buena
-	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(-25.0f, -2.0f, -45.0f));
-	model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-	//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	//pisoTexture.UseTexture();
-	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-	NocheBuena.RenderModel();
-
-	//Noche buena
-	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(-15.0f, -2.0f, -35.0f));
-	model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-	//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	//pisoTexture.UseTexture();
-	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-	NocheBuena.RenderModel();
-
 	//Huesos
-	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(0.0f, 16.0f, 0.0f));
-	model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+	model = modelAux;
+	model = glm::translate(model, glm::vec3(1.6f, -4.6f, 4.0f));
+	model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 	//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::rotate(model, -20 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	//pisoTexture.UseTexture();
 	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 	Huesos.RenderModel();
-
-	//piñata
+	//Mesa
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(0.0f, 25.0f, 0.0f));
-	model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+	model = glm::translate(model, glm::vec3(-45.6f, -3.6f, 5.0f));
+	model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
 	//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::rotate(model, -60 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	//pisoTexture.UseTexture();
 	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-	Pinata.RenderModel();
-
-	//corona
+	MesaC.RenderModel();
+	//cama
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(-35.0f, -2.0f, -6.0f));
-	model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));
+	model = glm::translate(model, glm::vec3(-28.6f, -3.0f, -10.0f));
+	model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
 	//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	//pisoTexture.UseTexture();
 	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-	Corona.RenderModel();
+	Cama.RenderModel();
 
-
+	
 	//papel picado
 	//blending: transparencia o traslucidez de una imagen
 	glEnable(GL_BLEND);
@@ -1145,6 +1093,55 @@ void DisplayEscenarioNavidad(glm::mat4 model, GLuint uniformModel, GLuint unifor
 	brickTexture.UseTexture();
 	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 	Tree.RenderModel();
+
+	//Noche buena1
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-25.0f, -2.0f, -45.0f));
+	model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	//pisoTexture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	NocheBuena.RenderModel();
+
+	//Noche buena2
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-15.0f, -2.0f, -35.0f));
+	model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	//pisoTexture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	NocheBuena.RenderModel();
+
+
+	//piñata
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-65.0f, 5.0f, -8.0f));
+	model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, -30 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	//pisoTexture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	Pinata.RenderModel();
+
+	//corona
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-35.0f, -2.0f, -6.0f));
+	model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	//pisoTexture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	Corona.RenderModel();
 	
 }
 
@@ -1238,6 +1235,13 @@ int main()
 
 	Corona = Model();
 	Corona.LoadModel("Models/Componente_58.obj");
+
+
+	MesaC = Model();
+	MesaC.LoadModel("Models/mesa.obj");
+
+	Cama = Model();
+	Cama.LoadModel("Models/cama.obj");
 
 	//pruebas
 	TRICERTP = Model();
@@ -1384,6 +1388,31 @@ int main()
 		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		Blackhawk_M.RenderModel();
 
+		//vidrio con transparencia 1
+//blending: transparencia o traslucidez de una imagen
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-49.5f, 7.5f, -25.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(4.0f, 3.25f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		vidrioTexture.UseTexture();
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		meshList[3]->RenderMesh();
+
+
+		//vidrio con transparencia 2
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-49.5f, 7.5f, 25.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(4.5f, 3.5f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		vidrioTexture.UseTexture();
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		meshList[3]->RenderMesh();
+
+		glDisable(GL_BLEND);
 		//blending: transparencia o traslucidez de una imagen
 		//glEnable(GL_BLEND);
 		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
