@@ -1,0 +1,22 @@
+#
+## Alias OBJ Material File
+# Exported from SketchUp, (c) 2000-2012 Trimble Navigation Limited
+
+newmtl Color_A10
+Ka 0.000000 0.000000 0.000000
+Kd 0.498039 0.498039 0.494118
+Ks 0.330000 0.330000 0.330000
+map_Kd silla/Color_A10.jpg
+
+newmtl _1
+Ka 0.000000 0.000000 0.000000
+Kd 0.831373 0.831373 0.831373
+Ks 0.330000 0.330000 0.330000
+map_Kd silla/_1.jpg
+
+newmtl _4
+Ka 0.000000 0.000000 0.000000
+Kd 0.160784 0.207843 0.027451
+Ks 0.330000 0.330000 0.330000
+map_Kd silla/_4.jpg
+

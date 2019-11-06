@@ -96,6 +96,9 @@ Model Pinata;
 Model Corona;
 Model MesaC;
 Model Cama;
+Model Cama2;
+Model Sillon;
+Model Comedor;
 Model TRICERTP;
 Skybox skybox;
 
@@ -1041,7 +1044,17 @@ void DisplayEscenarioMuertos(glm::mat4 model, GLuint uniformModel, GLuint unifor
 	//pisoTexture.UseTexture();
 	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 	Cama.RenderModel();
-
+	//sillon Digimon
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-13.6f, -3.0f, 38.0f));
+	model = glm::scale(model, glm::vec3(0.01f, 0.01f, 0.01f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	//pisoTexture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	Sillon.RenderModel();
 	
 	//papel picado
 	//blending: transparencia o traslucidez de una imagen
@@ -1142,9 +1155,31 @@ void DisplayEscenarioNavidad(glm::mat4 model, GLuint uniformModel, GLuint unifor
 	//pisoTexture.UseTexture();
 	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 	Corona.RenderModel();
+
+	//cama2
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-50.6f, -3.0f, -10.0f));
+	model = glm::scale(model, glm::vec3(8.0f, 8.0f, 8.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	//model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	//pisoTexture.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	Cama2.RenderModel();
 	
 }
-
+void DisplayCasa(glm::mat4 model, GLuint uniformModel, GLuint uniformSpecularIntensity, GLuint uniformShininess) {
+	//Elementos de la casa en general
+	//sila
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(40.0f, -2.0f, 20.0f));
+	model = glm::scale(model, glm::vec3(7.0f, 7.0f, 7.0f));
+	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	Comedor.RenderModel();
+}
 int main()
 {
 	mainWindow = Window(1366, 768); // 1280, 1024 or 1024, 768
@@ -1243,6 +1278,14 @@ int main()
 	Cama = Model();
 	Cama.LoadModel("Models/cama.obj");
 
+	Cama2 = Model();
+	Cama2.LoadModel("Models/cama2.obj");
+
+	Comedor = Model();
+	Comedor.LoadModel("Models/comedor.obj");
+
+	Sillon = Model();
+	Sillon.LoadModel("Models/sofaD.obj");
 	//pruebas
 	TRICERTP = Model();
 	TRICERTP.LoadModel("Models/TRICERTP.obj");
@@ -1370,6 +1413,9 @@ int main()
 
 		//dibujando la estructura de la casa
 		DisplayHouse(model, uniformModel, uniformSpecularIntensity, uniformShininess);
+
+		//renderizado TODO LO QUE NO SEA CUARTO
+		DisplayCasa(model, uniformModel, uniformSpecularIntensity, uniformShininess);
 
 		//renderizado del cuarto navideño
 		DisplayEscenarioNavidad(model, uniformModel, uniformSpecularIntensity, uniformShininess);

@@ -1,0 +1,324 @@
+#
+#
+#
+
+newmtl Malla de Mesh1 Group2 Group1 Model_tak_groot
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.419608 0.470588 0.435294
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_groot.png
+
+newmtl Malla de Mesh10 Group3 Group1 Model_tak_groot
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.419608 0.470588 0.435294
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_groot.png
+
+newmtl Malla de Mesh11 Group3 Group1 Model_tak_klein
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.662745 0.701961 0.690196
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_klein.png
+
+newmtl Malla de Mesh12 Group3 Group1 Model_tak_klein
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.662745 0.701961 0.690196
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_klein.png
+
+newmtl Malla de Mesh13 Group4 Group1 Model_tak_groot
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.419608 0.470588 0.435294
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_groot.png
+
+newmtl Malla de Mesh14 Group4 Group1 Model_tak_klein
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.662745 0.701961 0.690196
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_klein.png
+
+newmtl Malla de Mesh15 Group4 Group1 Model_tak_groot
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.419608 0.470588 0.435294
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_groot.png
+
+newmtl Malla de Mesh16 Group4 Group1 Model_tak_groot
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.419608 0.470588 0.435294
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_groot.png
+
+newmtl Malla de Mesh17 Group4 Group1 Model_tak_klein
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.662745 0.701961 0.690196
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_klein.png
+
+newmtl Malla de Mesh18 Group4 Group1 Model_tak_klein
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.662745 0.701961 0.690196
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_klein.png
+
+newmtl Malla de Mesh19 Group5 Group1 Model_tak_groot
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.419608 0.470588 0.435294
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_groot.png
+
+newmtl Malla de Mesh2 Group2 Group1 Model_tak_klein
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.662745 0.701961 0.690196
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_klein.png
+
+newmtl Malla de Mesh20 Group5 Group1 Model_tak_klein
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.662745 0.701961 0.690196
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_klein.png
+
+newmtl Malla de Mesh21 Group5 Group1 Model_tak_groot
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.419608 0.470588 0.435294
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_groot.png
+
+newmtl Malla de Mesh22 Group5 Group1 Model_tak_groot
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.419608 0.470588 0.435294
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_groot.png
+
+newmtl Malla de Mesh23 Group5 Group1 Model_tak_klein
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.662745 0.701961 0.690196
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_klein.png
+
+newmtl Malla de Mesh24 Group5 Group1 Model_tak_klein
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.662745 0.701961 0.690196
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_klein.png
+
+newmtl Malla de Mesh25 Group6 Group1 Model_tak_groot
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.419608 0.470588 0.435294
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_groot.png
+
+newmtl Malla de Mesh26 Group6 Group1 Model_tak_klein
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.662745 0.701961 0.690196
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_klein.png
+
+newmtl Malla de Mesh27 Group6 Group1 Model_tak_groot
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.419608 0.470588 0.435294
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_groot.png
+
+newmtl Malla de Mesh28 Group6 Group1 Model_tak_groot
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.419608 0.470588 0.435294
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_groot.png
+
+newmtl Malla de Mesh29 Group6 Group1 Model_tak_klein
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.662745 0.701961 0.690196
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_klein.png
+
+newmtl Malla de Mesh3 Group2 Group1 Model_tak_groot
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.419608 0.470588 0.435294
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_groot.png
+
+newmtl Malla de Mesh30 Group6 Group1 Model_tak_klein
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.662745 0.701961 0.690196
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_klein.png
+
+newmtl Malla de Mesh31 Group7 Group1 Model_tak_groot
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.419608 0.470588 0.435294
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_groot.png
+
+newmtl Malla de Mesh32 Group7 Group1 Model_tak_klein
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.662745 0.701961 0.690196
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_klein.png
+
+newmtl Malla de Mesh33 Group7 Group1 Model_tak_groot
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.419608 0.470588 0.435294
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_groot.png
+
+newmtl Malla de Mesh34 Group7 Group1 Model_tak_groot
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.419608 0.470588 0.435294
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_groot.png
+
+newmtl Malla de Mesh35 Group7 Group1 Model_tak_klein
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.662745 0.701961 0.690196
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_klein.png
+
+newmtl Malla de Mesh36 Group7 Group1 Model_tak_klein
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.662745 0.701961 0.690196
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_klein.png
+
+newmtl Malla de Mesh37 Model_kerstspar
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.650980 0.686275 0.674510
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd kerstspar.png
+
+newmtl Malla de Mesh37 Model_kerstspar_9
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.674510 0.705882 0.682353
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd kerstspar_9.png
+
+newmtl Malla de Mesh38 Model_kerstspar_11
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.705882 0.733333 0.717647
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd kerstspar_11.png
+
+newmtl Malla de Mesh39 Model_kerstspar_10
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.705882 0.733333 0.717647
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd kerstspar_10.png
+
+newmtl Malla de Mesh4 Group2 Group1 Model_tak_groot
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.419608 0.470588 0.435294
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_groot.png
+
+newmtl Malla de Mesh5 Group2 Group1 Model_tak_klein
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.662745 0.701961 0.690196
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_klein.png
+
+newmtl Malla de Mesh6 Group2 Group1 Model_tak_klein
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.662745 0.701961 0.690196
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_klein.png
+
+newmtl Malla de Mesh7 Group3 Group1 Model_tak_groot
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.419608 0.470588 0.435294
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_groot.png
+
+newmtl Malla de Mesh8 Group3 Group1 Model_tak_klein
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.662745 0.701961 0.690196
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_klein.png
+
+newmtl Malla de Mesh9 Group3 Group1 Model_tak_groot
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.419608 0.470588 0.435294
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd tak_groot.png
+

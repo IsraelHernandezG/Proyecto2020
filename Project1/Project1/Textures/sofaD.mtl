@@ -1,0 +1,22 @@
+#
+## Alias OBJ Material File
+# Exported from SketchUp, (c) 2000-2012 Trimble Navigation Limited
+
+newmtl Color_A10
+Ka 0.000000 0.000000 0.000000
+Kd 0.419608 0.341176 0.333333
+Ks 0.330000 0.330000 0.330000
+map_Kd sofaD/Color_A10.jpg
+
+newmtl _1
+Ka 0.000000 0.000000 0.000000
+Kd 0.007843 0.015686 0.035294
+Ks 0.330000 0.330000 0.330000
+map_Kd sofaD/_1.png
+
+newmtl _4
+Ka 0.000000 0.000000 0.000000
+Kd 0.160784 0.207843 0.027451
+Ks 0.330000 0.330000 0.330000
+map_Kd sofaD/_4.jpg
+

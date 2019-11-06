@@ -1,0 +1,28 @@
+#
+## Alias OBJ Material File
+# Exported from SketchUp, (c) 2000-2012 Trimble Navigation Limited
+
+newmtl Madera_de_cerezo_sin_tratar_black
+Ka 0.000000 0.000000 0.000000
+Kd 0.207843 0.207843 0.207843
+Ks 0.330000 0.330000 0.330000
+map_Kd comedor/Madera_de_cerezo_sin_tratar_black.jpg
+
+newmtl Wood_Cherry_Original
+Ka 0.000000 0.000000 0.000000
+Kd 0.596078 0.337255 0.164706
+Ks 0.330000 0.330000 0.330000
+map_Kd comedor/Wood_Cherry_Original.jpg
+
+newmtl FrontColor
+Ka 0.000000 0.000000 0.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.330000 0.330000 0.330000
+map_Kd comedor/Wood_Cherry_Original.jpg
+
+newmtl Textile_Groovy_Navy
+Ka 0.000000 0.000000 0.000000
+Kd 0.588235 0.333333 0.152941
+Ks 0.330000 0.330000 0.330000
+map_Kd comedor/Textile_Groovy_Navy.jpg
+
