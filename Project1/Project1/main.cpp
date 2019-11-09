@@ -75,6 +75,15 @@ Texture papelPicado1;
 Texture papelPicado2;
 Texture papelPicado3;
 Texture papelPicado4;
+Texture digimon1;
+Texture digimon2;
+Texture digimon3;
+Texture nacimiento1;
+Texture nacimiento2;
+Texture nacimiento3;
+Texture nacimiento4;
+Texture nacimiento5;
+Texture nacimiento6;
 
 Texture PizzaTex;
 Texture RocaTex;
@@ -919,6 +928,18 @@ void DisplayHouse(glm::mat4 model, GLuint uniformModel, GLuint uniformSpecularIn
 
 }
 
+void DisplayCasa(glm::mat4 model, GLuint uniformModel, GLuint uniformSpecularIntensity, GLuint uniformShininess) {
+	//Elementos de la casa en general
+	//sila
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(40.0f, -2.0f, 20.0f));
+	model = glm::scale(model, glm::vec3(7.0f, 7.0f, 7.0f));
+	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	Comedor.RenderModel();
+}
+
 void DisplayEscenarioMuertos(glm::mat4 model, GLuint uniformModel, GLuint uniformSpecularIntensity, GLuint uniformShininess) {
 	//Aqui se dibujan los elementos y modelos del cuarto de dia de muertos
 	//gerarquia con modelAux
@@ -1030,6 +1051,33 @@ void DisplayEscenarioMuertos(glm::mat4 model, GLuint uniformModel, GLuint unifor
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 	Huesos.RenderModel();
+
+	//fotos ofrenda
+	model = modelAux;
+	model = glm::translate(model, glm::vec3(1.5f, 1.2f, -3.0f));
+	model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	digimon1.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[3]->RenderMesh();
+
+	model = modelAux;
+	model = glm::translate(model, glm::vec3(-2.5f, 1.2f, -3.0f));
+	model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	digimon2.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[3]->RenderMesh();
+
+	model = modelAux;
+	model = glm::translate(model, glm::vec3(5.5f, 1.2f, -3.0f));
+	model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	digimon3.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[3]->RenderMesh();
+
+
 	//Mesa
 	model = glm::mat4(1.0);
 	model = glm::translate(model, glm::vec3(-45.6f, -3.6f, 5.0f));
@@ -1168,19 +1216,74 @@ void DisplayEscenarioNavidad(glm::mat4 model, GLuint uniformModel, GLuint unifor
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 	Cama2.RenderModel();
-	
-}
-void DisplayCasa(glm::mat4 model, GLuint uniformModel, GLuint uniformSpecularIntensity, GLuint uniformShininess) {
-	//Elementos de la casa en general
-	//sila
+
+	//colina
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(40.0f, -2.0f, 20.0f));
-	model = glm::scale(model, glm::vec3(7.0f, 7.0f, 7.0f));
-	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::translate(model, glm::vec3(-35.0f, -0.5f, -40.0f));
+	model = glm::scale(model, glm::vec3(8.0f, 8.0f, 8.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-	Comedor.RenderModel();
+	// .RenderModel();
+
+	//nacimiento
+	glm::mat4 modelTemp(1.0);
+	//blending: transparencia o traslucidez de una imagen
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-35.0f, -0.5f, -40.0f));
+	modelTemp = model;
+
+	//animales
+	model = modelTemp;
+	model = glm::translate(model, glm::vec3(-3.0f, 0.0f, -2.5f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	nacimiento5.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[3]->RenderMesh();
+
+	model = modelTemp;
+	model = glm::translate(model, glm::vec3(1.0f, 0.0f, -2.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	nacimiento2.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[3]->RenderMesh();
+
+	//angeles y pastores, etc
+	model = modelTemp;
+	model = glm::translate(model, glm::vec3(-1.0f, 0.0f, -1.5f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	nacimiento6.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[3]->RenderMesh();
+
+	model = modelTemp;
+	model = glm::translate(model, glm::vec3(-2.5f, 0.0f, -0.5f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	nacimiento3.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[3]->RenderMesh();
+
+	model = modelTemp;
+	model = glm::translate(model, glm::vec3(2.0f, 0.0f, -1.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	nacimiento4.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[3]->RenderMesh();
+
+	//
+	model = modelTemp;
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	nacimiento1.UseTexture();
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	meshList[3]->RenderMesh();
+
+	glDisable(GL_BLEND);
+
+	
+	
 }
+
 int main()
 {
 	mainWindow = Window(1366, 768); // 1280, 1024 or 1024, 768
@@ -1223,6 +1326,24 @@ int main()
 	papelPicado3.LoadTextureA();
 	papelPicado4 = Texture("Textures/ingenieria_papel.tga");
 	papelPicado4.LoadTextureA();
+	digimon1 = Texture("Textures/wizardmon.tga");
+	digimon1.LoadTextureA();
+	digimon2 = Texture("Textures/blackwargraymon.tga");
+	digimon2.LoadTextureA();
+	digimon3 = Texture("Textures/leomon.tga");
+	digimon3.LoadTextureA();
+	nacimiento1 = Texture("Textures/nacimiento1.tga");
+	nacimiento1.LoadTextureA();
+	nacimiento2 = Texture("Textures/animales1.tga");
+	nacimiento2.LoadTextureA();
+	nacimiento3 = Texture("Textures/reyesMagos.tga");
+	nacimiento3.LoadTextureA();
+	nacimiento4 = Texture("Textures/pastor1.tga");
+	nacimiento4.LoadTextureA();
+	nacimiento5 = Texture("Textures/animales2.tga");
+	nacimiento5.LoadTextureA();
+	nacimiento6 = Texture("Textures/angel1.tga");
+	nacimiento6.LoadTextureA();
 	
 
 	Material_brillante = Material(4.0f, 256);
@@ -1292,7 +1413,7 @@ int main()
 	Canasta.LoadModel("Models/canasta.obj");
 	//pruebas
 	TRICERTP = Model();
-	TRICERTP.LoadModel("Models/TRICERTP.obj");
+	TRICERTP.LoadModel("Models/Skate_Ramp_Fun_Box_08_.obj");
 	//
 
 
@@ -1361,7 +1482,6 @@ int main()
 		animate();
 
 		banderaCamara = mainWindow.getBanderaCamara();
-		printf("posicion camara X: %f, z: %f'\n", cam3x, cam3z);
 
 		if (banderaCamara == 0) {
 			camera.setCameraPosition(glm::vec3(cam3x,cam3y,cam3z),cam3yaw,cam3pitch);
