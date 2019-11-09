@@ -50,10 +50,14 @@ std::vector<Mesh*> meshList;
 std::vector<Shader> shaderList;
 Camera camera;
 //
-int banderaCamara = 0;
-float cam1x = 0.0f, cam1y = 0.0f, cam1z = 0.0f;
-float cam2x = 0.0f, cam2y = 0.0f, cam2z = 0.0f;
-float cam3x = 0.0f, cam3y = 0.0f, cam3z = 0.0f;
+int banderaCamara = 3;
+GLfloat cam1x = -25.0f, cam1y = 0.0f, cam1z = 25.0f; //cuarto dia muertos
+GLfloat cam2x = -25.0f, cam2y = 0.0f, cam2z = -25.0f; //cuarto navidad
+GLfloat cam3x = 0.0f, cam3y = 0.0f, cam3z = 0.0f; //camara libre
+GLfloat cam1yaw = 0.0f, cam1pitch = 0.0f;
+GLfloat cam2yaw = 0.0f, cam2pitch = 0.0f;
+GLfloat cam3yaw = 0.0f, cam3pitch = 0.0f;
+int banderaCanasta = 1;
 
 
 Texture brickTexture;
@@ -1357,11 +1361,26 @@ int main()
 		animate();
 
 		banderaCamara = mainWindow.getBanderaCamara();
+		printf("posicion camara X: %f, z: %f'\n", cam3x, cam3z);
 
 		if (banderaCamara == 0) {
+			camera.setCameraPosition(glm::vec3(cam3x,cam3y,cam3z),cam3yaw,cam3pitch);
+			banderaCanasta = 1;
 			camera.keyControl(mainWindow.getsKeys(), deltaTime);
 		}
-		else {
+		if (banderaCamara == 1) {
+			camera.setCameraPosition(glm::vec3(cam1x, cam1y, cam1z), cam1yaw, cam1pitch);
+			banderaCanasta = 0;
+			camera.keyControl(mainWindow.getsKeys(), deltaTime);
+		}
+		if (banderaCamara == 2) {
+			camera.setCameraPosition(glm::vec3(cam2x, cam2y, cam2z), cam2yaw, cam2pitch);
+			banderaCanasta = 0;
+			camera.keyControl(mainWindow.getsKeys(), deltaTime);
+		}
+		if (banderaCamara == 3) {
+			camera.setCameraPosition(glm::vec3(cam3x, cam3y, cam3z), cam3yaw, cam3pitch);
+			banderaCanasta = 1;
 			camera.keyControlFree(mainWindow.getsKeys(), deltaTime);
 		}
 		
@@ -1403,6 +1422,7 @@ int main()
 		glUniform3f(uniformEyePosition, camera.getCameraPosition().x, camera.getCameraPosition().y, camera.getCameraPosition().z);
 
 		glm::mat4 model(1.0);
+		glm::mat4 modelJerarquico(1.0);
 
 		//plano terreno
 		model = glm::mat4(1.0);
@@ -1413,18 +1433,22 @@ int main()
 		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		meshList[0]->RenderMesh();
 
+		if (banderaCanasta == 1) {
+			//Canasta con camara
+			model = glm::mat4(1.0);
+			model = glm::translate(model, camera.getCameraPosition());
+			model = glm::rotate(model, -camera.getCameraYaw() * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::rotate(model, camera.getCameraPitch() * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+			model = glm::translate(model, glm::vec3(2.0f, -1.5f, 0.5f));
+			modelJerarquico = model;
+			model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(0.02f, 0.02f, 0.02f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+			Canasta.RenderModel();
 
-		//Canasta con camara
-		model = glm::mat4(1.0);
-		model = glm::translate(model, camera.getCameraPosition());
-		model = glm::rotate(model, -camera.getCameraYaw() * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::rotate(model, camera.getCameraPitch() * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
-		model = glm::translate(model, glm::vec3(2.0f, -1.5f, 0.5f));
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.02f, 0.02f, 0.02f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		Canasta.RenderModel();
+			//añadir mas objetos de forma jerarquica a la canasta
+		}
 
 		//dibujando la estructura de la casa
 		DisplayHouse(model, uniformModel, uniformSpecularIntensity, uniformShininess);
@@ -1481,6 +1505,37 @@ int main()
 		glUseProgram(0);
 
 		mainWindow.swapBuffers();
+
+		//actualiza valores de la camara
+		if (banderaCamara == 0) {
+			cam3x = camera.getCameraPosition().x;
+			cam3y = camera.getCameraPosition().y;
+			cam3z = camera.getCameraPosition().z;
+			cam3yaw = camera.getCameraYaw();
+			cam3pitch = camera.getCameraPitch();
+		}
+		if (banderaCamara == 1) {
+			cam1x = camera.getCameraPosition().x;
+			cam1y = camera.getCameraPosition().y;
+			cam1z = camera.getCameraPosition().z;
+			cam1yaw = camera.getCameraYaw();
+			cam1pitch = camera.getCameraPitch();
+		}
+		if (banderaCamara == 2) {
+			cam2x = camera.getCameraPosition().x;
+			cam2y = camera.getCameraPosition().y;
+			cam2z = camera.getCameraPosition().z;
+			cam2yaw = camera.getCameraYaw();
+			cam2pitch = camera.getCameraPitch();
+		}
+		if (banderaCamara == 3) {
+			cam3x = camera.getCameraPosition().x;
+			cam3y = camera.getCameraPosition().y;
+			cam3z = camera.getCameraPosition().z;
+			cam3yaw = camera.getCameraYaw();
+			cam3pitch = camera.getCameraPitch();
+		}
+
 	}
 
 	return 0;

@@ -115,16 +115,25 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 		glfwWaitEventsTimeout(1.7);
 	}
 
-	if (key == GLFW_KEY_1 && action == GLFW_PRESS)
+	if (key == GLFW_KEY_0 && action == GLFW_PRESS)
 	{
 		theWindow->banderaCamara = 0;
 	}
 
-	if (key == GLFW_KEY_2 && action == GLFW_PRESS)
+	if (key == GLFW_KEY_1 && action == GLFW_PRESS)
 	{
 		theWindow->banderaCamara = 1;
 	}
 
+	if (key == GLFW_KEY_2 && action == GLFW_PRESS)
+	{
+		theWindow->banderaCamara = 2;
+	}
+
+	if (key == GLFW_KEY_3 && action == GLFW_PRESS)
+	{
+		theWindow->banderaCamara = 3;
+	}
 
 	
 	if (key >= 0 && key < 1024)

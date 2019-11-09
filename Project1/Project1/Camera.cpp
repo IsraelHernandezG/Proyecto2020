@@ -100,6 +100,15 @@ glm::vec3 Camera::getCameraPosition()
 	return position;
 }
 
+void Camera::setCameraPosition(glm::vec3 Position, GLfloat Yaw, GLfloat Pitch)
+{
+	position = Position;
+	yaw = Yaw;
+	pitch = Pitch;
+
+	update();
+}
+
 GLfloat Camera::getCameraPitch()
 {
 	return pitch;
