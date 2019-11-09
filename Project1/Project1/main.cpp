@@ -51,6 +51,10 @@ std::vector<Shader> shaderList;
 Camera camera;
 //
 int banderaCamara = 0;
+float cam1x = 0.0f, cam1y = 0.0f, cam1z = 0.0f;
+float cam2x = 0.0f, cam2y = 0.0f, cam2z = 0.0f;
+float cam3x = 0.0f, cam3y = 0.0f, cam3z = 0.0f;
+
 
 Texture brickTexture;
 Texture plainTexture;
@@ -1362,6 +1366,8 @@ int main()
 		}
 		
 		camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
+
+
 		// Clear the window
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -1406,11 +1412,15 @@ int main()
 		terrainTexture.UseTexture();
 		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		meshList[0]->RenderMesh();
+
+
 		//Canasta con camara
 		model = glm::mat4(1.0);
-		
 		model = glm::translate(model, camera.getCameraPosition());
-		model = glm::translate(model, glm::vec3(-1.0f, -2.0f, 0.0f));
+		model = glm::rotate(model, -camera.getCameraYaw() * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, camera.getCameraPitch() * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::translate(model, glm::vec3(2.0f, -1.5f, 0.5f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.02f, 0.02f, 0.02f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
