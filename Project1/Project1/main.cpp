@@ -49,14 +49,15 @@ Window mainWindow;
 std::vector<Mesh*> meshList;
 std::vector<Shader> shaderList;
 Camera camera;
+Camera camera_Anim;
 //
 int banderaCamara = 3;
 GLfloat cam1x = -25.0f, cam1y = 0.0f, cam1z = 25.0f; //cuarto dia muertos
 GLfloat cam2x = -25.0f, cam2y = 0.0f, cam2z = -25.0f; //cuarto navidad
-GLfloat cam3x = 0.0f, cam3y = 0.0f, cam3z = 0.0f; //camara libre
+float cam3x = 0.0f, cam3y = 0.0f, cam3z = 0.0f; //camara libre
 GLfloat cam1yaw = 0.0f, cam1pitch = 0.0f;
 GLfloat cam2yaw = 0.0f, cam2pitch = 0.0f;
-GLfloat cam3yaw = 0.0f, cam3pitch = 0.0f;
+float cam3yaw = 0.0f, cam3pitch = 0.0f;
 int banderaCanasta = 1;
 
 
@@ -384,19 +385,23 @@ void CreateShaders()
 
 bool animacion = false;
 
-//NEW// Keyframes
-float posXavion = 2.0,
-posYavion = 2.0,
-posZavion = 0;
-
+//NEW// Keyframes animacion 1
 float movAvion_x = 0.0f,
 movAvion_y = 0.0f,
 movAvion_z = 0.0f,
 giroAvion = 0;
 
+//NEW// Keyframes animacion 2
+float mov_x = 0.0f,
+mov_y = 0.0f,
+mov_z = 0.0f,
+giro_y = 0.0f,
+giro_z = 0.0f;
+
+
 #define MAX_FRAMES 100
 int i_max_steps = 90;
-int i_curr_steps = 5;
+
 typedef struct _frame
 {
 	//Variables para GUARDAR Key Frames
@@ -408,21 +413,40 @@ typedef struct _frame
 	float movAvion_zInc;		//Variable para IncrementoZ
 	float giroAvion;
 	float giroAvionInc;
-}FRAME;
+}FRAME_AVION;
 
-FRAME KeyFrame[MAX_FRAMES];
-int FrameIndex = 5;			//introducir datos
-bool play = false;
-int playIndex = 0;
-
-void saveFrame(void)
+typedef struct _frame2
 {
+	//Variables para GUARDAR Key Frames
+	float movCamera_x;		//Variable para PosicionX
+	float movCamera_y;		//Variable para PosicionY
+	float movCamera_z;		//Variable para PosicionZ
+	float movCamera_xInc;		//Variable para IncrementoX
+	float movCamera_yInc;		//Variable para IncrementoY
+	float movCamera_zInc;		//Variable para IncrementoZ
+	float giroCamera_yaw;
+	float giroCamera_yawInc;
+	float giroCamera_pitch;
+	float giroCamera_pitchInc;
+}FRAME_CAMERA;
+
+FRAME_AVION KeyFrame[MAX_FRAMES];
+FRAME_CAMERA KeyFrame_Camera[MAX_FRAMES];
+int FrameIndex = 0;			//introducir datos
+int FrameIndex_Camera = 0;
+bool play = false;
+bool play_Camera = false;
+int playIndex = 0;
+int playIndex_Camera = 0;
+int i_curr_steps = 5;
+int i_curr_steps_Camera = 5;
+
+void saveFrame(void){
 	string name = "animation.txt";
 	std::string s = "";
 	std::ostringstream strsX, strsY, strsZ, strsRY, strs;
 
 	printf("frameindex %d\n", FrameIndex);
-
 
 	KeyFrame[FrameIndex].movAvion_x = movAvion_x;
 	strsX << movAvion_x;
@@ -451,6 +475,46 @@ void saveFrame(void)
 	editarArchivo("frames.txt", s);
 }
 
+void saveFrame_Camera(void)
+{
+	string name = "animation_Camera.txt";
+	std::string s = "";
+	std::ostringstream strsX, strsY, strsZ, strsRY, strsRZ, strs;
+
+	printf("frameindex %d\n", FrameIndex_Camera);
+
+	KeyFrame_Camera[FrameIndex_Camera].movCamera_x = mov_x;
+	strsX << mov_x;
+	s = strsX.str();
+	editarArchivo(name, s);
+
+	KeyFrame_Camera[FrameIndex_Camera].movCamera_y = mov_y;
+	strsY << mov_y;
+	s = strsY.str();
+	editarArchivo(name, s);
+
+	KeyFrame_Camera[FrameIndex_Camera].movCamera_z = mov_z;
+	strsZ << mov_z;
+	s = strsZ.str();
+	editarArchivo(name, s);
+
+	KeyFrame_Camera[FrameIndex_Camera].giroCamera_yaw = giro_y;
+	strsRY << giro_y;
+	s = strsRY.str();
+	editarArchivo(name, s);
+
+	KeyFrame_Camera[FrameIndex_Camera].giroCamera_pitch = giro_z;
+	strsRZ << giro_z;
+	s = strsRZ.str();
+	editarArchivo(name, s);
+
+	FrameIndex_Camera++;
+	strs << FrameIndex_Camera;
+	s = strs.str();
+	creaArchivo("frames_Camera.txt");
+	editarArchivo("frames_Camera.txt", s);
+}
+
 void cargaFrames(void) {
 	//KeyFrame[MAX_FRAMES];
 	FrameIndex = 0;
@@ -461,26 +525,74 @@ void cargaFrames(void) {
 	std::string::size_type sz;   // alias of size_t
 	long numFrames = std::stol(salida, &sz);
 
+	printf("\nKey Frames\n\n");
 	long i;
 	for (i = 0; i <= numFrames - 1; i++) {
 
 		salida = leerArchivo(name, 4 * i);
+		cout << "x: " << salida << endl;
 		double l_posX = std::stod(salida, &sz);
 		KeyFrame[FrameIndex].movAvion_x = l_posX;
-
+		
 		salida = leerArchivo(name, 4 * i + 1);
+		cout << "y: " << salida << endl;
 		double l_posY = std::stod(salida, &sz);
 		KeyFrame[FrameIndex].movAvion_y = l_posY;
-
+		
 		salida = leerArchivo(name, 4 * i + 2);
+		cout << "z: " << salida << endl;
 		double l_posZ = std::stod(salida, &sz);
 		KeyFrame[FrameIndex].movAvion_z = l_posZ;
-
+		
 		salida = leerArchivo(name, 4 * i + 3);
+		cout << "rot_y: " << salida << endl;
 		double l_rotY = std::stod(salida, &sz);
 		KeyFrame[FrameIndex].giroAvion = l_rotY;
-
+		
 		FrameIndex++;
+	}
+}
+
+void cargaFrames_Camera(void) {
+	//KeyFrame[MAX_FRAMES];
+	FrameIndex_Camera = 0;
+	playIndex_Camera = 0;
+
+	string name = "animation_Camera.txt";
+	string salida = leerArchivo("frames_Camera.txt", 0L);
+	std::string::size_type sz;   // alias of size_t
+	long numFrames = std::stol(salida, &sz);
+
+	printf("\nKey Frames Camera\n\n");
+	long i;
+	for (i = 0; i <= numFrames - 1; i++) {
+
+		salida = leerArchivo(name, 5 * i);
+		cout << "x: " << salida << endl;
+		double l_posX = std::stod(salida, &sz);
+		KeyFrame_Camera[FrameIndex_Camera].movCamera_x = l_posX;
+
+		salida = leerArchivo(name, 5 * i + 1);
+		cout << "y: " << salida << endl;
+		double l_posY = std::stod(salida, &sz);
+		KeyFrame_Camera[FrameIndex_Camera].movCamera_y = l_posY;
+
+		salida = leerArchivo(name, 5 * i + 2);
+		cout << "z: " << salida << endl;
+		double l_posZ = std::stod(salida, &sz);
+		KeyFrame_Camera[FrameIndex_Camera].movCamera_z = l_posZ;
+
+		salida = leerArchivo(name, 5 * i + 3);
+		cout << "rot_y: " << salida << endl;
+		double l_rotY = std::stod(salida, &sz);
+		KeyFrame_Camera[FrameIndex_Camera].giroCamera_yaw = l_rotY;
+
+		salida = leerArchivo(name, 5 * i + 4);
+		cout << "rot_z: " << salida << endl;
+		double l_rotZ = std::stod(salida, &sz);
+		KeyFrame_Camera[FrameIndex_Camera].giroCamera_pitch = l_rotZ;
+
+		FrameIndex_Camera++;
 	}
 }
 
@@ -492,12 +604,30 @@ void resetElements(void)
 	giroAvion = KeyFrame[0].giroAvion;
 }
 
+void resetElements_Camera(void)
+{
+	mov_x = KeyFrame_Camera[0].movCamera_x;
+	mov_y = KeyFrame_Camera[0].movCamera_y;
+	mov_z = KeyFrame_Camera[0].movCamera_z;
+	giro_y = KeyFrame_Camera[0].giroCamera_yaw;
+	giro_z = KeyFrame_Camera[0].giroCamera_pitch;
+}
+
 void interpolation(void)
 {
 	KeyFrame[playIndex].movAvion_xInc = (KeyFrame[playIndex + 1].movAvion_x - KeyFrame[playIndex].movAvion_x) / i_max_steps;
 	KeyFrame[playIndex].movAvion_yInc = (KeyFrame[playIndex + 1].movAvion_y - KeyFrame[playIndex].movAvion_y) / i_max_steps;
 	KeyFrame[playIndex].movAvion_zInc = (KeyFrame[playIndex + 1].movAvion_z - KeyFrame[playIndex].movAvion_z) / i_max_steps;
 	KeyFrame[playIndex].giroAvionInc = (KeyFrame[playIndex + 1].giroAvion - KeyFrame[playIndex].giroAvion) / i_max_steps;
+}
+
+void interpolation_Camera(void)
+{
+	KeyFrame_Camera[playIndex_Camera].movCamera_xInc = (KeyFrame_Camera[playIndex_Camera + 1].movCamera_x - KeyFrame_Camera[playIndex_Camera].movCamera_x) / i_max_steps;
+	KeyFrame_Camera[playIndex_Camera].movCamera_yInc = (KeyFrame_Camera[playIndex_Camera + 1].movCamera_y - KeyFrame_Camera[playIndex_Camera].movCamera_y) / i_max_steps;
+	KeyFrame_Camera[playIndex_Camera].movCamera_zInc = (KeyFrame_Camera[playIndex_Camera + 1].movCamera_z - KeyFrame_Camera[playIndex_Camera].movCamera_z) / i_max_steps;
+	KeyFrame_Camera[playIndex_Camera].giroCamera_yawInc = (KeyFrame_Camera[playIndex_Camera + 1].giroCamera_yaw - KeyFrame_Camera[playIndex_Camera].giroCamera_yaw) / i_max_steps;
+	KeyFrame_Camera[playIndex_Camera].giroCamera_pitchInc = (KeyFrame_Camera[playIndex_Camera + 1].giroCamera_pitch - KeyFrame_Camera[playIndex_Camera].giroCamera_pitch) / i_max_steps;
 
 }
 
@@ -520,7 +650,7 @@ void animate(void)
 			}
 			else //Next frame interpolations
 			{
-				//printf("entro aquí\n");
+				//printf("Frame index= %d\n", FrameIndex);
 				i_curr_steps = 0; //Reset counter
 				//Interpolation
 				interpolation();
@@ -528,8 +658,6 @@ void animate(void)
 		}
 		else
 		{
-			//printf("se quedó aqui\n");
-			//printf("max steps: %f", i_max_steps);
 			//Draw animation
 			movAvion_x += KeyFrame[playIndex].movAvion_xInc;
 			movAvion_y += KeyFrame[playIndex].movAvion_yInc;
@@ -539,49 +667,89 @@ void animate(void)
 		}
 
 	}
+
+	//Movimiento de la camara
+	if (play_Camera)
+	{
+		if (i_curr_steps_Camera >= i_max_steps) //end of animation between frames?
+		{
+			playIndex_Camera++;
+			printf("playindex Camera: %d\n", playIndex_Camera);
+			if (playIndex_Camera > FrameIndex_Camera - 2)	//end of total animation?
+			{
+				printf("Frame index Camera= %d\n", FrameIndex_Camera);
+				printf("termina anim Camera\n");
+				playIndex_Camera = 0;
+				play_Camera = false;
+			}
+			else //Next frame interpolations
+			{
+				//printf("Frame index= %d\n", FrameIndex_Camera);
+				i_curr_steps_Camera = 0; //Reset counter
+				//Interpolation
+				interpolation_Camera();
+			}
+		}
+		else
+		{
+			//Draw animation
+			mov_x += KeyFrame_Camera[playIndex_Camera].movCamera_xInc;
+			mov_y += KeyFrame_Camera[playIndex_Camera].movCamera_yInc;
+			mov_z += KeyFrame_Camera[playIndex_Camera].movCamera_zInc;
+			giro_y += KeyFrame_Camera[playIndex_Camera].giroCamera_yawInc;
+			giro_z += KeyFrame_Camera[playIndex_Camera].giroCamera_pitchInc;
+			i_curr_steps_Camera++;
+		}
+
+	}
 }
 
 void inputKeyframes(bool* keys)
 {
-
-	//Para vaciar el fichero
+	//Para vaciar los ficheros
 	if (keys[GLFW_KEY_V]) {
-
 		creaArchivo("animation.txt");
+		creaArchivo("animation_Camera.txt");
 		creaArchivo("frames.txt");
+		creaArchivo("frames_Camera.txt");
 		glfwWaitEventsTimeout(1.7);
-
 	}
 
-	//Para leer el fichero
+	//Para leer los ficheros
 	if (keys[GLFW_KEY_R]) {
-
 		readFile("animation.txt");
-		//cargaFrames();
+		readFile("animation_Camera.txt");
 		glfwWaitEventsTimeout(1.7);
-
 	}
 
 	//Para cargar las posiciones guardadas en el arreglo de estructuras
 	if (keys[GLFW_KEY_L]) {
-
 		cargaFrames();
+		cargaFrames_Camera();
 		glfwWaitEventsTimeout(1.7);
-
 	}
 	
-
 	//To Save a KeyFrame
 	if (keys[GLFW_KEY_G]){
 
 		if (FrameIndex < MAX_FRAMES)
 		{
-			saveFrame();
+			//saveFrame();
 			glfwWaitEventsTimeout(1.7); //delay para evitar lecturas erroneas del teclado
 		}
 	}
+
+	//To Save a KeyFrame of Camera
+	if (keys[GLFW_KEY_H]) {
+
+		if (FrameIndex < MAX_FRAMES)
+		{
+			saveFrame_Camera();
+			glfwWaitEventsTimeout(1.7);
+		}
+	}
 	
-	//To play KeyFrame animation 
+	//To play KeyFrame animation 1
 	if (keys[GLFW_KEY_P])
 	{
 		if (play == false && (FrameIndex > 1))
@@ -597,6 +765,26 @@ void inputKeyframes(bool* keys)
 		else
 		{
 			play = false;
+		}
+		glfwWaitEventsTimeout(1.7);
+	}
+
+	//To play KeyFrame animation of Camera
+	if (keys[GLFW_KEY_O])
+	{
+		if (play_Camera == false && (FrameIndex_Camera > 1))
+		{
+			resetElements_Camera();
+			//First Interpolation				
+			interpolation_Camera();
+
+			play_Camera = true;
+			playIndex_Camera = 0;
+			i_curr_steps = 0;
+		}
+		else
+		{
+			play_Camera = false;
 		}
 		glfwWaitEventsTimeout(1.7);
 	}
@@ -1294,6 +1482,8 @@ int main()
 	CreateShaders();
 
 	camera = Camera(glm::vec3(-37.0f, 3.0f, 12.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 5.0f, 0.5f);
+	camera_Anim =  Camera(glm::vec3(-37.0f, 3.0f, 12.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 5.0f, 0.5f);
+
 
 	//Textures
 	brickTexture = Texture("Textures/brick.png");
@@ -1411,11 +1601,7 @@ int main()
 
 	Canasta = Model();
 	Canasta.LoadModel("Models/canasta.obj");
-	//pruebas
-	TRICERTP = Model();
-	TRICERTP.LoadModel("Models/Skate_Ramp_Fun_Box_08_.obj");
-	//
-
+	
 
 	//luz direccional, sólo 1 y siempre debe de existir
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
@@ -1448,10 +1634,6 @@ int main()
 		20.0f);
 	spotLightCount++;
 
-	//cargando keyframes de archivo de texto
-	//cargaFrames();
-
-
 	std::vector<std::string> skyboxFaces;
 	skyboxFaces.push_back("Textures/Skybox/hills_ft.tga");
 	skyboxFaces.push_back("Textures/Skybox/hills_bk.tga");
@@ -1480,32 +1662,38 @@ int main()
 		//para keyframes
 		inputKeyframes(mainWindow.getsKeys());
 		animate();
-
+		
 		banderaCamara = mainWindow.getBanderaCamara();
 
-		if (banderaCamara == 0) {
-			camera.setCameraPosition(glm::vec3(cam3x,cam3y,cam3z),cam3yaw,cam3pitch);
-			banderaCanasta = 1;
-			camera.keyControl(mainWindow.getsKeys(), deltaTime);
+		if (play_Camera) {
+			camera.setCameraPosition(glm::vec3(mov_x, mov_y, mov_z), giro_y, giro_z);
+			//banderaCanasta = 1;
 		}
-		if (banderaCamara == 1) {
-			camera.setCameraPosition(glm::vec3(cam1x, cam1y, cam1z), cam1yaw, cam1pitch);
-			banderaCanasta = 0;
-			camera.keyControl(mainWindow.getsKeys(), deltaTime);
-		}
-		if (banderaCamara == 2) {
-			camera.setCameraPosition(glm::vec3(cam2x, cam2y, cam2z), cam2yaw, cam2pitch);
-			banderaCanasta = 0;
-			camera.keyControl(mainWindow.getsKeys(), deltaTime);
-		}
-		if (banderaCamara == 3) {
-			camera.setCameraPosition(glm::vec3(cam3x, cam3y, cam3z), cam3yaw, cam3pitch);
-			banderaCanasta = 1;
-			camera.keyControlFree(mainWindow.getsKeys(), deltaTime);
+		else {
+			if (banderaCamara == 0) {
+				camera.setCameraPosition(glm::vec3(cam3x, cam3y, cam3z), cam3yaw, cam3pitch);
+				banderaCanasta = 1;
+				camera.keyControl(mainWindow.getsKeys(), deltaTime);
+			}
+			if (banderaCamara == 1) {
+				camera.setCameraPosition(glm::vec3(cam1x, cam1y, cam1z), cam1yaw, cam1pitch);
+				banderaCanasta = 0;
+				camera.keyControl(mainWindow.getsKeys(), deltaTime);
+			}
+			if (banderaCamara == 2) {
+				camera.setCameraPosition(glm::vec3(cam2x, cam2y, cam2z), cam2yaw, cam2pitch);
+				banderaCanasta = 0;
+				camera.keyControl(mainWindow.getsKeys(), deltaTime);
+			}
+			if (banderaCamara == 3) {
+				camera.setCameraPosition(glm::vec3(cam3x, cam3y, cam3z), cam3yaw, cam3pitch);
+				banderaCanasta = 1;
+				camera.keyControlFree(mainWindow.getsKeys(), deltaTime);
+			}
+
+			camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
 		}
 		
-		camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
-
 
 		// Clear the window
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -1553,7 +1741,7 @@ int main()
 		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		meshList[0]->RenderMesh();
 
-		if (banderaCanasta == 1) {
+		/*if (banderaCanasta == 1) {
 			//Canasta con camara
 			model = glm::mat4(1.0);
 			model = glm::translate(model, camera.getCameraPosition());
@@ -1569,6 +1757,21 @@ int main()
 
 			//añadir mas objetos de forma jerarquica a la canasta
 		}
+		else {*/
+			//Canasta con camara
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(3.0f + mov_x, 2.0f + mov_y, mov_z));
+		//model = glm::translate(model, glm::vec3(3.0f + movAvion_x, 2.0f + movAvion_y, 0.0f + movAvion_z));
+		//model = glm::rotate(model, -giroAvion * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::rotate(model, cam3pitch * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::translate(model, glm::vec3(2.0f, -1.5f, 0.5f));
+		modelJerarquico = model;
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.02f, 0.02f, 0.02f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Canasta.RenderModel();
+		//}
 
 		//dibujando la estructura de la casa
 		DisplayHouse(model, uniformModel, uniformSpecularIntensity, uniformShininess);
@@ -1585,8 +1788,9 @@ int main()
 		
 		//modelo helicoptero
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(3.0f, 6.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(3.0f + movAvion_x, 6.0f + movAvion_y, 0.0f + movAvion_z));
 		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+		model = glm::rotate(model, -giroAvion * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -1594,7 +1798,7 @@ int main()
 		Blackhawk_M.RenderModel();
 
 		//vidrio con transparencia 1
-//blending: transparencia o traslucidez de una imagen
+		//blending: transparencia o traslucidez de una imagen
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		model = glm::mat4(1.0);
@@ -1618,44 +1822,42 @@ int main()
 		meshList[3]->RenderMesh();
 
 		glDisable(GL_BLEND);
-		//blending: transparencia o traslucidez de una imagen
-		//glEnable(GL_BLEND);
-		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		//glDisable(GL_BLEND);
 		glUseProgram(0);
 
-		mainWindow.swapBuffers();
-
 		//actualiza valores de la camara
-		if (banderaCamara == 0) {
-			cam3x = camera.getCameraPosition().x;
-			cam3y = camera.getCameraPosition().y;
-			cam3z = camera.getCameraPosition().z;
-			cam3yaw = camera.getCameraYaw();
-			cam3pitch = camera.getCameraPitch();
-		}
-		if (banderaCamara == 1) {
-			cam1x = camera.getCameraPosition().x;
-			cam1y = camera.getCameraPosition().y;
-			cam1z = camera.getCameraPosition().z;
-			cam1yaw = camera.getCameraYaw();
-			cam1pitch = camera.getCameraPitch();
-		}
-		if (banderaCamara == 2) {
-			cam2x = camera.getCameraPosition().x;
-			cam2y = camera.getCameraPosition().y;
-			cam2z = camera.getCameraPosition().z;
-			cam2yaw = camera.getCameraYaw();
-			cam2pitch = camera.getCameraPitch();
-		}
-		if (banderaCamara == 3) {
-			cam3x = camera.getCameraPosition().x;
-			cam3y = camera.getCameraPosition().y;
-			cam3z = camera.getCameraPosition().z;
-			cam3yaw = camera.getCameraYaw();
-			cam3pitch = camera.getCameraPitch();
+		if (play_Camera == false) {
+
+			if (banderaCamara == 0) {
+				cam3x = camera.getCameraPosition().x;
+				cam3y = camera.getCameraPosition().y;
+				cam3z = camera.getCameraPosition().z;
+				cam3yaw = camera.getCameraYaw();
+				cam3pitch = camera.getCameraPitch();
+			}
+			if (banderaCamara == 1) {
+				cam1x = camera.getCameraPosition().x;
+				cam1y = camera.getCameraPosition().y;
+				cam1z = camera.getCameraPosition().z;
+				cam1yaw = camera.getCameraYaw();
+				cam1pitch = camera.getCameraPitch();
+			}
+			if (banderaCamara == 2) {
+				cam2x = camera.getCameraPosition().x;
+				cam2y = camera.getCameraPosition().y;
+				cam2z = camera.getCameraPosition().z;
+				cam2yaw = camera.getCameraYaw();
+				cam2pitch = camera.getCameraPitch();
+			}
+			if (banderaCamara == 3) {
+				cam3x = camera.getCameraPosition().x;
+				cam3y = camera.getCameraPosition().y;
+				cam3z = camera.getCameraPosition().z;
+				cam3yaw = camera.getCameraYaw();
+				cam3pitch = camera.getCameraPitch();
+			}
 		}
 
+		mainWindow.swapBuffers();
 	}
 
 	return 0;

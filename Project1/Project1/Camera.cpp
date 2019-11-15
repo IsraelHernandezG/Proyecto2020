@@ -69,6 +69,13 @@ void Camera::keyControl(bool* keys, GLfloat deltaTime)
 	}
 }
 
+void Camera::animationControl(glm::vec3 PositionInc, GLfloat deltaTime)
+{
+	GLfloat velocity = moveSpeed * deltaTime;
+
+	position += PositionInc * velocity;
+}
+
 void Camera::mouseControl(GLfloat xChange, GLfloat yChange)
 {
 	xChange *= turnSpeed;

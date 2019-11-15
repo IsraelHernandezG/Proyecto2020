@@ -17,6 +17,7 @@ public:
 	void keyControlFree(bool* keys, GLfloat deltaTime);
 	void mouseControl(GLfloat xChange, GLfloat yChange);
 	void setCameraPosition(glm::vec3 Position, GLfloat Yaw, GLfloat Pitch);
+	void animationControl(glm::vec3 PositionInc, GLfloat deltaTime);
 
 	GLfloat getCameraPitch();
 	GLfloat getCameraYaw();

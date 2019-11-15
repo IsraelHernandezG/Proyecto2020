@@ -5,7 +5,7 @@ Window::Window()
 	width = 800;
 	height = 600;
 	banderaL = 0;
-	banderaCamara = 0;
+	banderaCamara = 3;
 	for (size_t i = 0; i < 1024; i++)
 	{
 		keys[i] = 0;
@@ -16,7 +16,7 @@ Window::Window(GLint windowWidth, GLint windowHeight)
 	width = windowWidth;
 	height = windowHeight;
 	banderaL = 0;
-	banderaCamara = 0;
+	banderaCamara = 3;
 	for (size_t i = 0; i < 1024; i++)
 	{
 		keys[i] = 0;
