@@ -1,0 +1,16 @@
+#
+## Alias OBJ Material File
+# Exported from SketchUp, (c) 2000-2012 Trimble Navigation Limited
+
+newmtl Wood_Bamboo_Medium
+Ka 0.000000 0.000000 0.000000
+Kd 0.694118 0.411765 0.168627
+Ks 0.330000 0.330000 0.330000
+map_Kd marco/Wood_Bamboo_Medium.jpg
+
+newmtl Gold
+Ka 0.000000 0.000000 0.000000
+Kd 0.866667 0.556863 0.196078
+Ks 0.330000 0.330000 0.330000
+map_Kd marco/Gold.jpg
+

@@ -1,0 +1,43 @@
+#
+#
+#
+
+newmtl Malla de Mesh1 Model_Color_G01
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.086275 0.396078 0.129412
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd Color_G01.jpg
+
+newmtl Malla de Mesh1 Model_FrontColor
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+
+newmtl Malla de Mesh1 Model_Tile_Limestone_Multi
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.780392 0.678431 0.462745
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd Tile_Limestone_Multi.jpg
+
+newmtl Malla de Mesh1 Model_Tile_Travertine_2inch
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.709804 0.698039 0.674510
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd Tile_Travertine_2inch.jpg
+
+newmtl Malla de Mesh1 Model_Water_Pool_Light
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.243137 0.584314 0.650980
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd Water_Pool_Light.jpg
+

@@ -1,0 +1,27 @@
+#
+## Alias OBJ Material File
+# Exported from SketchUp, (c) 2000-2012 Trimble Navigation Limited
+
+newmtl Gold
+Ka 0.000000 0.000000 0.000000
+Kd 0.803922 0.698039 0.094118
+Ks 0.330000 0.330000 0.330000
+
+newmtl Wood_Bamboo_Medium
+Ka 0.000000 0.000000 0.000000
+Kd 0.694118 0.411765 0.168627
+Ks 0.330000 0.330000 0.330000
+map_Kd puerta/Wood_Bamboo_Medium.jpg
+
+newmtl M_0010_Snow
+Ka 0.000000 0.000000 0.000000
+Kd 1.000000 0.980392 0.980392
+Ks 0.330000 0.330000 0.330000
+d 0.400000
+
+newmtl Metal_Aluminum_Anodized
+Ka 0.000000 0.000000 0.000000
+Kd 0.792157 0.819608 0.858824
+Ks 0.330000 0.330000 0.330000
+map_Kd puerta/Metal_Aluminum_Anodized.jpg
+

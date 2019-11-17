@@ -1,0 +1,22 @@
+#
+## Alias OBJ Material File
+# Exported from SketchUp, (c) 2000-2012 Trimble Navigation Limited
+
+newmtl _Black_1
+Ka 0.000000 0.000000 0.000000
+Kd 0.101961 0.101961 0.105882
+Ks 0.330000 0.330000 0.330000
+map_Kd velas/_Black_1.jpg
+
+newmtl _Black_2
+Ka 0.000000 0.000000 0.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.330000 0.330000 0.330000
+map_Kd velas/_Black_1.jpg
+
+newmtl _77
+Ka 0.000000 0.000000 0.000000
+Kd 0.905882 0.901961 0.905882
+Ks 0.330000 0.330000 0.330000
+map_Kd velas/_77.jpg
+

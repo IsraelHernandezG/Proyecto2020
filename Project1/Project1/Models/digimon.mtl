@@ -1,0 +1,84 @@
+#
+#
+#
+
+newmtl Malla de Mesh1 Group1 Model_Carpet_Pattern_Office
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 1.000000 0.600000 0.196078
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd Carpet_Pattern_Office.jpg
+
+newmtl Malla de Mesh1 Group1 Model_Color_000
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.905882 0.901961 0.905882
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd Color_000.jpg
+
+newmtl Malla de Mesh1 Group1 Model_Color_008
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.101961 0.101961 0.105882
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd Color_008.jpg
+
+newmtl Malla de Mesh1 Group1 Model_Color_A03
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.874510 0.207843 0.423529
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd Color_A03.jpg
+
+newmtl Malla de Mesh1 Group1 Model_Metal_Aluminum_Anodized
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.662745 0.662745 0.737255
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd Metal_Aluminum_Anodized.jpg
+
+newmtl Malla de Mesh1 Group1 Model__2
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.003922 0.207843 0.419608
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd _2.jpg
+
+newmtl Malla de Mesh1 Group1 Model__7
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.878431 0.564706 0.392157
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd _7.jpg
+
+newmtl Malla de Mesh1 Group1 Model__Black_
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.101961 0.101961 0.105882
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd _Black_.jpg
+
+newmtl Malla de Mesh1 Group1 Model__Charcoal_
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.101961 0.101961 0.105882
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd _Charcoal_.jpg
+
+newmtl Malla de Mesh1 Group1 Model__Metal_Aluminum_Anodized_1
+illum 2
+Ka 0.000000 0.000000 0.000000
+Kd 0.376471 0.376471 0.419608
+Ks 0.330000 0.330000 0.330000
+Ns 0.000000
+map_Kd _Metal_Aluminum_Anodized_1.jpg
+

@@ -1,0 +1,40 @@
+#
+## Alias OBJ Material File
+# Exported from SketchUp, (c) 2000-2012 Trimble Navigation Limited
+
+newmtl _Gray6_
+Ka 0.000000 0.000000 0.000000
+Kd 0.745098 0.760784 0.764706
+Ks 0.330000 0.330000 0.330000
+map_Kd fantasma/_Gray6_.jpg
+
+newmtl _2
+Ka 0.000000 0.000000 0.000000
+Kd 0.874510 0.207843 0.423529
+Ks 0.330000 0.330000 0.330000
+map_Kd fantasma/_2.jpg
+
+newmtl _Redwood_
+Ka 0.000000 0.000000 0.000000
+Kd 0.619608 0.043137 0.047059
+Ks 0.330000 0.330000 0.330000
+map_Kd fantasma/_Redwood_.jpg
+
+newmtl Color_E05
+Ka 0.000000 0.000000 0.000000
+Kd 0.905882 0.901961 0.905882
+Ks 0.330000 0.330000 0.330000
+map_Kd fantasma/Color_E05.jpg
+
+newmtl _Black_
+Ka 0.000000 0.000000 0.000000
+Kd 0.101961 0.101961 0.105882
+Ks 0.330000 0.330000 0.330000
+map_Kd fantasma/_Black_.jpg
+
+newmtl _1
+Ka 0.000000 0.000000 0.000000
+Kd 0.905882 0.901961 0.905882
+Ks 0.330000 0.330000 0.330000
+map_Kd fantasma/_1.jpg
+

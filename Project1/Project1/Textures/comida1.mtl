@@ -1,0 +1,74 @@
+#
+## Alias OBJ Material File
+# Exported from SketchUp, (c) 2000-2012 Trimble Navigation Limited
+
+newmtl French_Frie_Texture
+Ka 0.000000 0.000000 0.000000
+Kd 0.835294 0.694118 0.282353
+Ks 0.330000 0.330000 0.330000
+map_Kd comida1/French_Frie_Texture.jpg
+
+newmtl FrontColor
+Ka 0.000000 0.000000 0.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.330000 0.330000 0.330000
+
+newmtl Color_001
+Ka 0.000000 0.000000 0.000000
+Kd 0.886275 0.886275 0.886275
+Ks 0.330000 0.330000 0.330000
+
+newmtl bife
+Ka 0.000000 0.000000 0.000000
+Kd 0.623529 0.596078 0.560784
+Ks 0.330000 0.330000 0.330000
+map_Kd comida1/bife.jpg
+
+newmtl _1
+Ka 0.000000 0.000000 0.000000
+Kd 0.905882 0.698039 0.490196
+Ks 0.330000 0.330000 0.330000
+map_Kd comida1/_1.png
+
+newmtl _2
+Ka 0.000000 0.000000 0.000000
+Kd 0.968627 0.607843 0.168627
+Ks 0.330000 0.330000 0.330000
+map_Kd comida1/_2.png
+
+newmtl Carpet_Plush_Forest
+Ka 0.000000 0.000000 0.000000
+Kd 0.866667 0.866667 0.866667
+Ks 0.330000 0.330000 0.330000
+map_Kd comida1/Carpet_Plush_Forest.jpg
+
+newmtl Material3
+Ka 0.000000 0.000000 0.000000
+Kd 0.356863 0.305882 0.200000
+Ks 0.330000 0.330000 0.330000
+map_Kd comida1/Material3.jpg
+
+newmtl Material4
+Ka 0.000000 0.000000 0.000000
+Kd 0.262745 0.262745 0.133333
+Ks 0.330000 0.330000 0.330000
+map_Kd comida1/Material4.jpg
+
+newmtl Tile_Ceramic_Natural
+Ka 0.000000 0.000000 0.000000
+Kd 0.858824 0.811765 0.576471
+Ks 0.330000 0.330000 0.330000
+map_Kd comida1/Tile_Ceramic_Natural.jpg
+
+newmtl _5
+Ka 0.000000 0.000000 0.000000
+Kd 0.294118 0.309804 0.184314
+Ks 0.330000 0.330000 0.330000
+map_Kd comida1/_5.jpg
+
+newmtl _12
+Ka 0.000000 0.000000 0.000000
+Kd 0.423529 0.462745 0.152941
+Ks 0.330000 0.330000 0.330000
+map_Kd comida1/_12.jpg
+
