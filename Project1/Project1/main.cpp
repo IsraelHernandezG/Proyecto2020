@@ -59,6 +59,8 @@ GLfloat cam1yaw = 0.0f, cam1pitch = 0.0f;
 GLfloat cam2yaw = 0.0f, cam2pitch = 0.0f;
 float cam3yaw = 0.0f, cam3pitch = 0.0f;
 int banderaCanasta = 1;
+int dia = 0;
+float Dred = 0.0f, Dgreen = 0.0f, Dblue = 0.0f; //luz direccional
 
 
 Texture brickTexture;
@@ -133,6 +135,8 @@ Model Digimon;
 //fantasma animacion
 Model Fantasma;
 Skybox skybox;
+Skybox skybox_atardecer;
+Skybox skybox_noche;
 int Axi=0,Axj=0;
 bool AuxL1= false,AuxL2=false,AuxL3=false, AuxL4 = false, AuxL5 = false;
 
@@ -147,6 +151,7 @@ GLfloat giroZ = 0.0f;
 int bandera = 0;
 //control luz spotlight
 int banderaL = 0;
+int banderaSkybox = 0;
 
 // Vertex Shader
 static const char* vShader = "shaders/shader_light.vert";
@@ -716,6 +721,33 @@ void animate(void)
 			i_curr_steps_Camera++;
 		}
 
+	}
+
+	//ciclo dia y noche
+	if (dia <= 300) {
+		dia++;
+		banderaSkybox = 0;
+		Dred = 1.0f;
+		Dgreen = 1.0f;
+		Dblue = 1.0f;
+		
+	}
+	if (dia > 300 && dia <= 600) {
+		dia++;
+		banderaSkybox = 1;
+		Dred = 1.0f;
+		Dgreen = 0.92f;
+		Dblue = 0.41f;
+	}
+	if (dia > 600 && dia <= 900) {
+		dia++;
+		banderaSkybox = 2;
+		Dred = 0.22f;
+		Dgreen = 0.22f;
+		Dblue = 0.29f;
+	}
+	if (dia > 900) {
+		dia = 0;
 	}
 }
 
@@ -2160,8 +2192,6 @@ int main()
 	CreateShaders();
 
 	camera = Camera(glm::vec3(-37.0f, 3.0f, 12.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 5.0f, 0.5f);
-	camera_Anim =  Camera(glm::vec3(-37.0f, 3.0f, 12.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 5.0f, 0.5f);
-
 
 	//Textures
 	brickTexture = Texture("Textures/brick.png");
@@ -2313,7 +2343,7 @@ int main()
 	Puerta = Model();
 	Puerta.LoadModel("Models/puerta.obj");
 	//luz direccional, sólo 1 y siempre debe de existir
-	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
+	mainLight = DirectionalLight(Dred, Dgreen, Dblue,
 		0.3f, 0.3f,
 		0.0f, 0.0f, -1.0f);
 	//contador de luces puntuales
@@ -2353,14 +2383,31 @@ int main()
 	spotLightCount++;
 
 	std::vector<std::string> skyboxFaces;
-	skyboxFaces.push_back("Textures/Skybox/hills_ft.tga");
-	skyboxFaces.push_back("Textures/Skybox/hills_bk.tga");
-	skyboxFaces.push_back("Textures/Skybox/hills_dn.tga");
-	skyboxFaces.push_back("Textures/Skybox/hills_up.tga");
-	skyboxFaces.push_back("Textures/Skybox/hills_rt.tga");
-	skyboxFaces.push_back("Textures/Skybox/hills_lf.tga");
-
+	skyboxFaces.push_back("Textures/Skybox/ame_siege/siege_ft.tga");
+	skyboxFaces.push_back("Textures/Skybox/ame_siege/siege_bk.tga");
+	skyboxFaces.push_back("Textures/Skybox/ame_siege/siege_dn.tga");
+	skyboxFaces.push_back("Textures/Skybox/ame_siege/siege_up.tga");
+	skyboxFaces.push_back("Textures/Skybox/ame_siege/siege_rt.tga");
+	skyboxFaces.push_back("Textures/Skybox/ame_siege/siege_lf.tga");
 	skybox = Skybox(skyboxFaces);
+
+	std::vector<std::string> skyboxFaces2;
+	skyboxFaces2.push_back("Textures/Skybox/ame_siege/siege_ft_atardecer.tga");
+	skyboxFaces2.push_back("Textures/Skybox/ame_siege/siege_bk_atardecer.tga");
+	skyboxFaces2.push_back("Textures/Skybox/ame_siege/siege_dn_atardecer.tga");
+	skyboxFaces2.push_back("Textures/Skybox/ame_siege/siege_up_atardecer.tga");
+	skyboxFaces2.push_back("Textures/Skybox/ame_siege/siege_rt_atardecer.tga");
+	skyboxFaces2.push_back("Textures/Skybox/ame_siege/siege_lf_atardecer.tga");
+	skybox_atardecer = Skybox(skyboxFaces2);
+
+	std::vector<std::string> skyboxFaces3;
+	skyboxFaces3.push_back("Textures/Skybox/ame_siege/siege_ft_noche.tga");
+	skyboxFaces3.push_back("Textures/Skybox/ame_siege/siege_bk_noche.tga");
+	skyboxFaces3.push_back("Textures/Skybox/ame_siege/siege_dn_noche.tga");
+	skyboxFaces3.push_back("Textures/Skybox/ame_siege/siege_up_noche.tga");
+	skyboxFaces3.push_back("Textures/Skybox/ame_siege/siege_rt_noche.tga");
+	skyboxFaces3.push_back("Textures/Skybox/ame_siege/siege_lf_noche.tga");
+	skybox_noche = Skybox(skyboxFaces3);
 
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0, uniformEyePosition = 0,
 		uniformSpecularIntensity = 0, uniformShininess = 0;
@@ -2542,7 +2589,7 @@ int main()
 
 		if (play_Camera) {
 			camera.setCameraPosition(glm::vec3(mov_x, mov_y, mov_z), giro_y, giro_z);
-			//banderaCanasta = 1;
+			banderaCanasta = 1;
 		}
 		else {
 			if (banderaCamara == 0) {
@@ -2573,7 +2620,25 @@ int main()
 		// Clear the window
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		skybox.DrawSkybox(camera.calculateViewMatrix(), projection);
+		if (banderaSkybox == 0) {
+			skybox.DrawSkybox(camera.calculateViewMatrix(), projection);
+			mainLight = DirectionalLight(Dred, Dgreen, Dblue,
+				0.3f, 0.3f,
+				0.0f, 0.0f, -1.0f);
+		}
+		if (banderaSkybox == 1) {
+			skybox_atardecer.DrawSkybox(camera.calculateViewMatrix(), projection);
+			mainLight = DirectionalLight(Dred, Dgreen, Dblue,
+				0.3f, 0.3f,
+				0.0f, 0.0f, -1.0f);
+		}
+		if (banderaSkybox == 2) {
+			skybox_noche.DrawSkybox(camera.calculateViewMatrix(), projection);
+			mainLight = DirectionalLight(Dred, Dgreen, Dblue,
+				0.3f, 0.3f,
+				0.0f, 0.0f, -1.0f);
+		}
+		
 		shaderList[0].UseShader();
 		uniformModel = shaderList[0].GetModelLocation();
 		uniformProjection = shaderList[0].GetProjectionLocation();
@@ -2616,7 +2681,7 @@ int main()
 		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		meshList[0]->RenderMesh();
 
-		/*if (banderaCanasta == 1) {
+		if (banderaCanasta == 1) {
 			//Canasta con camara
 			model = glm::mat4(1.0);
 			model = glm::translate(model, camera.getCameraPosition());
@@ -2632,21 +2697,20 @@ int main()
 
 			//añadir mas objetos de forma jerarquica a la canasta
 		}
-		else {*/
-			//Canasta con camara
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(3.0f + mov_x, 2.0f + mov_y, mov_z));
-		//model = glm::translate(model, glm::vec3(3.0f + movAvion_x, 2.0f + movAvion_y, 0.0f + movAvion_z));
-		//model = glm::rotate(model, -giroAvion * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		//model = glm::rotate(model, cam3pitch * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
-		model = glm::translate(model, glm::vec3(2.0f, -1.5f, 0.5f));
-		modelJerarquico = model;
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.02f, 0.02f, 0.02f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		Canasta.RenderModel();
-		//}
+		else {
+			//Canasta fija
+			model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(cam3x, cam3y, cam3z));
+			model = glm::rotate(model, -cam3yaw * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::rotate(model, cam3pitch * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+			model = glm::translate(model, glm::vec3(2.0f, -1.5f, 0.5f));
+			modelJerarquico = model;
+			model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(0.02f, 0.02f, 0.02f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+			Canasta.RenderModel();
+		}
 
 		//dibujando la estructura de la casa
 		DisplayHouse(model, uniformModel, uniformSpecularIntensity, uniformShininess);
