@@ -162,8 +162,8 @@ Model Fantasma;
 Skybox skybox;
 Skybox skybox_atardecer;
 Skybox skybox_noche;
-int Axi=0,Axj=0;
-bool AuxL1= false,AuxL2=false,AuxL3=false, AuxL4 = false, AuxL5 = false;
+int Axi = 0, Axj = 0;
+bool AuxL1 = false, AuxL2 = false, AuxL3 = false, AuxL4 = false, AuxL5 = false;
 
 GLfloat deltaTime = 0.0f;
 GLfloat lastTime = 0.0f;
@@ -486,7 +486,7 @@ int playIndex_Camera = 0;
 int i_curr_steps = 5;
 int i_curr_steps_Camera = 5;
 
-void saveFrame(void){
+void saveFrame(void) {
 	string name = "animation.txt";
 	std::string s = "";
 	std::ostringstream strsX, strsY, strsZ, strsRY, strs;
@@ -528,28 +528,28 @@ void saveFrame_Camera(void)
 
 	printf("frameindex %d\n", FrameIndex_Camera);
 
-	KeyFrame_Camera[FrameIndex_Camera].movCamera_x = mov_x;
-	strsX << mov_x;
+	KeyFrame_Camera[FrameIndex_Camera].movCamera_x = cam3x;
+	strsX << cam3x;
 	s = strsX.str();
 	editarArchivo(name, s);
 
-	KeyFrame_Camera[FrameIndex_Camera].movCamera_y = mov_y;
-	strsY << mov_y;
+	KeyFrame_Camera[FrameIndex_Camera].movCamera_y = cam3y;
+	strsY << cam3y;
 	s = strsY.str();
 	editarArchivo(name, s);
 
-	KeyFrame_Camera[FrameIndex_Camera].movCamera_z = mov_z;
-	strsZ << mov_z;
+	KeyFrame_Camera[FrameIndex_Camera].movCamera_z = cam3z;
+	strsZ << cam3z;
 	s = strsZ.str();
 	editarArchivo(name, s);
 
-	KeyFrame_Camera[FrameIndex_Camera].giroCamera_yaw = giro_y;
-	strsRY << giro_y;
+	KeyFrame_Camera[FrameIndex_Camera].giroCamera_yaw = cam3yaw;
+	strsRY << cam3yaw;
 	s = strsRY.str();
 	editarArchivo(name, s);
 
-	KeyFrame_Camera[FrameIndex_Camera].giroCamera_pitch = giro_z;
-	strsRZ << giro_z;
+	KeyFrame_Camera[FrameIndex_Camera].giroCamera_pitch = cam3pitch;
+	strsRZ << cam3pitch;
 	s = strsRZ.str();
 	editarArchivo(name, s);
 
@@ -578,22 +578,22 @@ void cargaFrames(void) {
 		cout << "x: " << salida << endl;
 		double l_posX = std::stod(salida, &sz);
 		KeyFrame[FrameIndex].movAvion_x = l_posX;
-		
+
 		salida = leerArchivo(name, 4 * i + 1);
 		cout << "y: " << salida << endl;
 		double l_posY = std::stod(salida, &sz);
 		KeyFrame[FrameIndex].movAvion_y = l_posY;
-		
+
 		salida = leerArchivo(name, 4 * i + 2);
 		cout << "z: " << salida << endl;
 		double l_posZ = std::stod(salida, &sz);
 		KeyFrame[FrameIndex].movAvion_z = l_posZ;
-		
+
 		salida = leerArchivo(name, 4 * i + 3);
 		cout << "rot_y: " << salida << endl;
 		double l_rotY = std::stod(salida, &sz);
 		KeyFrame[FrameIndex].giroAvion = l_rotY;
-		
+
 		FrameIndex++;
 	}
 }
@@ -755,7 +755,7 @@ void animate(void)
 		Dred = 1.0f;
 		Dgreen = 1.0f;
 		Dblue = 1.0f;
-		
+
 	}
 	if (dia > 600 && dia <= 1200) {
 		dia++;
@@ -812,13 +812,13 @@ void inputKeyframes(bool* keys)
 		cargaFrames_Camera();
 		glfwWaitEventsTimeout(1.7);
 	}
-	
+
 	//To Save a KeyFrame
-	if (keys[GLFW_KEY_G]){
+	if (keys[GLFW_KEY_G]) {
 
 		if (FrameIndex < MAX_FRAMES)
 		{
-			//saveFrame();
+			saveFrame();
 			glfwWaitEventsTimeout(1.7); //delay para evitar lecturas erroneas del teclado
 		}
 	}
@@ -832,7 +832,7 @@ void inputKeyframes(bool* keys)
 			glfwWaitEventsTimeout(1.7);
 		}
 	}
-	
+
 	//To play KeyFrame animation 1
 	if (keys[GLFW_KEY_P])
 	{
@@ -1301,7 +1301,7 @@ void DisplayEscenarioMuertos(glm::mat4 model, GLuint uniformModel, GLuint unifor
 	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	model = glm::translate(model, glm::vec3(posXC / 2, posYC / 2, posZC / 2));
 	model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
-	
+
 	//model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -1963,7 +1963,7 @@ void DisplayEscenarioMuertos(glm::mat4 model, GLuint uniformModel, GLuint unifor
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
 	Sillon.RenderModel();
-	
+
 	//papel picado
 	//blending: transparencia o traslucidez de una imagen
 	glEnable(GL_BLEND);
@@ -2213,8 +2213,8 @@ void DisplayEscenarioNavidad(glm::mat4 model, GLuint uniformModel, GLuint unifor
 
 	glDisable(GL_BLEND);
 
-	
-	
+
+
 }
 
 void DisplayJerarquico1(glm::mat4 model, GLuint uniformModel, GLuint uniformSpecularIntensity, GLuint uniformShininess) {
@@ -2230,7 +2230,7 @@ void DisplayJerarquico1(glm::mat4 model, GLuint uniformModel, GLuint uniformSpec
 	model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	Sol.RenderModel();
-	
+
 	model = temp;
 	//Mercurio
 	model = glm::rotate(model, glm::radians(mercurio), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -2459,7 +2459,7 @@ int main()
 	nacimiento5.LoadTextureA();
 	nacimiento6 = Texture("Textures/angel1.tga");
 	nacimiento6.LoadTextureA();
-	
+
 
 	Material_brillante = Material(4.0f, 256);
 	Material_opaco = Material(0.3f, 4);
@@ -2486,10 +2486,10 @@ int main()
 	Calabaza.LoadModel("Models/Pumpkin.obj");
 	Mesa = Model();
 	Mesa.LoadModel("Models/table.obj");
-	
+
 	Gisado = Model();
 	Gisado.LoadModel("Models/13561_Shrimp_Sausage_Jambalaya_v1_L1.obj");
-	
+
 	Dulce = Model();
 	Dulce.LoadModel("Models/HalloweenCandy.obj");
 
@@ -2498,10 +2498,10 @@ int main()
 
 	NocheBuena = Model();
 	NocheBuena.LoadModel("Models/Poinsetta.obj");
-	
+
 	Huesos = Model();
 	Huesos.LoadModel("Models/skull.obj");
-	
+
 	Pinata = Model();
 	Pinata.LoadModel("Models/pinata.obj");
 
@@ -2526,7 +2526,7 @@ int main()
 
 	Canasta = Model();
 	Canasta.LoadModel("Models/canasta.obj");
-	
+
 	Cajas = Model();
 	Cajas.LoadModel("Models/caja.obj");
 
@@ -2613,7 +2613,7 @@ int main()
 		1.0f, 0.0f, 0.0f,
 		10.0f);
 	spotLightCount++;
-	
+
 
 	spotLights[1] = SpotLight(1.0f, 0.0f, 1.0f,
 		0.0f, 2.0f,
@@ -2679,22 +2679,22 @@ int main()
 		animacionCirculo();
 		//Luces 
 		Axi++;
-		
+
 		if (mainWindow.getsKeys()[GLFW_KEY_Z])
 		{
 			AuxL1 = true;
 		}
 		if (AuxL1 && Axi < 10) {
-			
+
 			pointLightCount = 0;
 			pointLights[0] = PointLight(1.0f, 1.0f, 0.0f,
 				0.0f, 1.0f,
 				-26.3f, 2.2f, 10.8f,
 				0.3f, 0.2f, 0.1f);
 			pointLightCount++;
-				
+
 		}
-		if (AuxL1 && Axi < 20 && Axi > 10 ) {
+		if (AuxL1 && Axi < 20 && Axi > 10) {
 			pointLightCount = 0;
 			pointLights[0] = PointLight(1.0f, 1.0f, 0.0f,
 				0.0f, 1.0f,
@@ -2717,14 +2717,14 @@ int main()
 		if (mainWindow.getsKeys()[GLFW_KEY_C]) {
 
 			AuxL2 = true;
-			
+
 		}
 		Axj++;
-		if (AuxL2||AuxL3)
+		if (AuxL2 || AuxL3)
 		{
 			printf("\n%d  ", Axj);
 		}
-		
+
 		if (AuxL2 && Axj < 10) {
 
 			pointLightCount = 0;
@@ -2864,7 +2864,7 @@ int main()
 
 			camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
 		}
-		
+
 
 		// Clear the window
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -2887,7 +2887,7 @@ int main()
 				0.3f, 0.3f,
 				0.0f, 0.0f, -1.0f);
 		}
-		
+
 		shaderList[0].UseShader();
 		uniformModel = shaderList[0].GetModelLocation();
 		uniformProjection = shaderList[0].GetProjectionLocation();
