@@ -790,12 +790,17 @@ void animate(void)
 
 void inputKeyframes(bool* keys)
 {
-	//Para vaciar los ficheros
+	//Para vaciar los ficheros de animacion1
 	if (keys[GLFW_KEY_V]) {
-		creaArchivo("animation.txt");
 		creaArchivo("animation_Camera.txt");
-		creaArchivo("frames.txt");
 		creaArchivo("frames_Camera.txt");
+		glfwWaitEventsTimeout(1.7);
+	}
+
+	//Para vaciar los ficheros de animacion2
+	if (keys[GLFW_KEY_B]) {
+		creaArchivo("animation.txt");
+		creaArchivo("frames.txt");
 		glfwWaitEventsTimeout(1.7);
 	}
 
@@ -870,6 +875,40 @@ void inputKeyframes(bool* keys)
 		{
 			play_Camera = false;
 		}
+		glfwWaitEventsTimeout(1.7);
+	}
+
+	//movimiento barquito
+	if (keys[GLFW_KEY_KP_1]) {
+		movAvion_x += 0.1f;
+		glfwWaitEventsTimeout(1.7);
+	}
+	if (keys[GLFW_KEY_KP_2]) {
+		movAvion_x -= 0.1f;
+		glfwWaitEventsTimeout(1.7);
+	}
+	if (keys[GLFW_KEY_KP_4]) {
+		movAvion_z += 0.1;
+		glfwWaitEventsTimeout(1.7);
+	}
+	if (keys[GLFW_KEY_KP_5]) {
+		movAvion_z -= 0.1;
+		glfwWaitEventsTimeout(1.7);
+	}
+	if (keys[GLFW_KEY_KP_6]) {
+		movAvion_y += 0.1;
+		glfwWaitEventsTimeout(1.7);
+	}
+	if (keys[GLFW_KEY_KP_3]) {
+		movAvion_y -= 0.1;
+		glfwWaitEventsTimeout(1.7);
+	}
+	if (keys[GLFW_KEY_KP_7]) {
+		giroAvion += 10.0;
+		glfwWaitEventsTimeout(1.7);
+	}
+	if (keys[GLFW_KEY_KP_8]) {
+		giroAvion -= 10.0;
 		glfwWaitEventsTimeout(1.7);
 	}
 
@@ -2150,6 +2189,19 @@ void DisplayEscenarioNavidad(glm::mat4 model, GLuint uniformModel, GLuint unifor
 	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 	Pisina.RenderModel();
 
+	//barquito
+	model = glm::mat4(1.0);
+
+	model = glm::translate(model, glm::vec3(movAvion_x -44.9f, movAvion_y -1.2f, movAvion_z -38.6f));
+	model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
+	model = glm::rotate(model, -giroAvion * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+	Blackhawk_M.RenderModel();
+
+
 	//colina
 	model = glm::mat4(1.0);
 	model = glm::translate(model, glm::vec3(-35.0f, -0.5f, -40.0f));
@@ -2976,17 +3028,6 @@ int main()
 		//Pruebas
 		DisplayJerarquico1(model, uniformModel, uniformSpecularIntensity, uniformShininess);
 
-
-		//modelo helicoptero
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(3.0f + movAvion_x, 6.0f + movAvion_y, 0.0f + movAvion_z));
-		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
-		model = glm::rotate(model, -giroAvion * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		Blackhawk_M.RenderModel();
 
 		//vidrio con transparencia 1
 		//blending: transparencia o traslucidez de una imagen
