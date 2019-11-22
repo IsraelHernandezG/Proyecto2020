@@ -126,6 +126,7 @@ Model Velas;
 Model Dulce;
 Model Calabaza;
 Model Mesa;
+Model Barco;
 Model Gisado;
 Model PanMuerto;
 Model NocheBuena;
@@ -791,18 +792,18 @@ void animate(void)
 void inputKeyframes(bool* keys)
 {
 	//Para vaciar los ficheros de animacion1
-	if (keys[GLFW_KEY_V]) {
+	/*if (keys[GLFW_KEY_V]) {
 		creaArchivo("animation_Camera.txt");
 		creaArchivo("frames_Camera.txt");
 		glfwWaitEventsTimeout(1.7);
-	}
+	}*/
 
-	//Para vaciar los ficheros de animacion2
-	if (keys[GLFW_KEY_B]) {
-		creaArchivo("animation.txt");
-		creaArchivo("frames.txt");
-		glfwWaitEventsTimeout(1.7);
-	}
+	////Para vaciar los ficheros de animacion2
+	//if (keys[GLFW_KEY_B]) {
+	//	creaArchivo("animation.txt");
+	//	creaArchivo("frames.txt");
+	//	glfwWaitEventsTimeout(1.7);
+	//}
 
 	//Para leer los ficheros
 	if (keys[GLFW_KEY_R]) {
@@ -2192,14 +2193,14 @@ void DisplayEscenarioNavidad(glm::mat4 model, GLuint uniformModel, GLuint unifor
 	//barquito
 	model = glm::mat4(1.0);
 
-	model = glm::translate(model, glm::vec3(movAvion_x -44.9f, movAvion_y -1.2f, movAvion_z -38.6f));
+	model = glm::translate(model, glm::vec3(movAvion_x -44.9f, movAvion_y -1.5f, movAvion_z -38.6f));
 	model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
 	model = glm::rotate(model, -giroAvion * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-	Blackhawk_M.RenderModel();
+	Barco.RenderModel();
 
 
 	//colina
@@ -2612,6 +2613,11 @@ int main()
 	Puerta = Model();
 	Puerta.LoadModel("Models/puerta.obj");
 
+
+	Barco = Model();
+	Barco.LoadModel("Models/barco.obj");
+
+
 	//sistema solar
 	Tierra = Model();
 	Tierra.LoadModel("Models/SistemaSolar/Tierra/Earth.obj");
@@ -2639,6 +2645,8 @@ int main()
 
 	Urano = Model();
 	Urano.LoadModel("Models/SistemaSolar/Urano/Earth.obj");
+
+	
 
 	Neptuno = Model();
 	Neptuno.LoadModel("Models/SistemaSolar/Neptuno/Earth.obj");
@@ -2995,7 +3003,72 @@ int main()
 			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 			Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 			Canasta.RenderModel();
+			//Canasta con camara
+			model = modelJerarquico;
+			model = glm::translate(model, glm::vec3(-0.2f, 1.0f, -0.4f));
+			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+			Dulce.RenderModel();
+			//Canasta con camara
+			model = modelJerarquico;
+			model = glm::translate(model, glm::vec3(-0.6f, 1.0f, -0.4f));
+			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+			Dulce.RenderModel();
+			//Canasta con camara
+			model = modelJerarquico;
+			model = glm::translate(model, glm::vec3(-0.4f, 1.0f, -0.4f));
+			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+			Dulce.RenderModel();
 
+			//Canasta con camara
+			model = modelJerarquico;
+			model = glm::translate(model, glm::vec3(-0.8f, 1.0f, -0.4f));
+			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+			Dulce.RenderModel();
+			//Canasta con camara
+			model = modelJerarquico;
+			model = glm::translate(model, glm::vec3(-0.2f, 1.0f, -0.8f));
+			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+			Dulce.RenderModel();
+			//Canasta con camara
+			model = modelJerarquico;
+			model = glm::translate(model, glm::vec3(-0.6f, 1.0f, -0.8f));
+			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+			Dulce.RenderModel();
+			//Canasta con camara
+			model = modelJerarquico;
+			model = glm::translate(model, glm::vec3(-0.4f, 1.0f, -0.8f));
+			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+			Dulce.RenderModel();
+
+			//Canasta con camara
+			model = modelJerarquico;
+			model = glm::translate(model, glm::vec3(-0.8f, 1.0f, -0.8f));
+			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+			Dulce.RenderModel();
 			//añadir mas objetos de forma jerarquica a la canasta
 		}
 		else {
@@ -3011,6 +3084,72 @@ int main()
 			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 			Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 			Canasta.RenderModel();
+			//Canasta con camara
+			model = modelJerarquico;
+			model = glm::translate(model, glm::vec3(-0.2f, 1.0f, -0.4f));
+			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+			Dulce.RenderModel();
+			//Canasta con camara
+			model = modelJerarquico;
+			model = glm::translate(model, glm::vec3(-0.6f, 1.0f, -0.4f));
+			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+			Dulce.RenderModel();
+			//Canasta con camara
+			model = modelJerarquico;
+			model = glm::translate(model, glm::vec3(-0.4f, 1.0f, -0.4f));
+			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+			Dulce.RenderModel();
+
+			//Canasta con camara
+			model = modelJerarquico;
+			model = glm::translate(model, glm::vec3(-0.8f, 1.0f, -0.4f));
+			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+			Dulce.RenderModel();
+			//Canasta con camara
+			model = modelJerarquico;
+			model = glm::translate(model, glm::vec3(-0.2f, 1.0f, -0.8f));
+			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+			Dulce.RenderModel();
+			//Canasta con camara
+			model = modelJerarquico;
+			model = glm::translate(model, glm::vec3(-0.6f, 1.0f, -0.8f));
+			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+			Dulce.RenderModel();
+			//Canasta con camara
+			model = modelJerarquico;
+			model = glm::translate(model, glm::vec3(-0.4f, 1.0f, -0.8f));
+			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+			Dulce.RenderModel();
+
+			//Canasta con camara
+			model = modelJerarquico;
+			model = glm::translate(model, glm::vec3(-0.8f, 1.0f, -0.8f));
+			//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+			Dulce.RenderModel();
 		}
 
 		//dibujando la estructura de la casa
